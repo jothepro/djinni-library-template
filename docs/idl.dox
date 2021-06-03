@@ -1,0 +1,9 @@
+/*!
+
+\page page1 Interface Definition
+
+Djinni IDL file:
+
+\include lib/my_djinni_library.djinni
+
+*/

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MyDjinniLibrary</id>
+    <version>{version}</version>
+    <authors>jothepro</authors>
+    <owners>jothepro</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A demo that shows how to use a native djinni library from within C#</description>
+    <copyright>Copyright 2021</copyright>
+    <tags>djinni</tags>
+    <dependencies>
+      <group targetFramework=".NET5.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="**" exclude="**\.gitignore;*.template;*.nupkg" />
+  </files>
+</package>

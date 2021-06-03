@@ -1,0 +1,11 @@
+include(default)
+[settings]
+build_type=Release
+compiler=clang
+compiler.libcxx=libc++
+compiler.version=11
+os=Android
+os.api_level=28
+[build_requires]
+[options]
+[env]

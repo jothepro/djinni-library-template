@@ -1,0 +1,58 @@
+from conans import ConanFile, CMake, tools, errors
+
+
+def get_version():
+    version = ""
+    try:
+        version = tools.Git().run("describe --tags")
+        tools.save("VERSION", version)
+    except:
+        version = tools.load("VERSION")
+    return version[1:]
+
+
+class MyLibraryConan(ConanFile):
+    name = "my_djinni_library"
+    version = get_version()
+    description = """A basic Djinni C++ library project template using CMake and Conan."""
+    settings = "os", "compiler", "build_type", "arch"
+    license = "AGPL-3.0-or-later"
+    generators = "cmake_find_package", "cmake_paths"
+    exports = "VERSION"
+    exports_sources = "lib/*", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
+    author = "jothepro"
+    options = {
+        "shared": [True, False],
+        "fPIC": [True, False]
+    }
+    default_options = {
+        "shared": False,
+        "fPIC": True
+    }
+    requires = (
+
+    )
+    build_requires = (
+        "catch2/2.13.4",
+        "djinni-generator/1.0.0"
+    )
+
+    def build(self):
+        generator = None
+        if tools.is_apple_os(self.settings.os):
+            generator = "Xcode"
+        elif self.settings.os == "Windows":
+            generator = "Visual Studio 16 2019"
+        cmake = CMake(self, generator=generator)
+        if not tools.get_env("CONAN_RUN_TESTS", True):
+            cmake.definitions["BUILD_TESTING"] = "OFF"
+        cmake.configure()
+        cmake.build()
+        if tools.get_env("CONAN_RUN_TESTS", True):
+            cmake.test()
+        cmake.install()
+
+    def package_info(self):
+        self.cpp_info.names["cmake_find_package"] = "MyDjinniLibrary"
+        self.cpp_info.names["cmake_find_package_multi"] = "MyDjinniLibrary"
+        self.cpp_info.libs = ["MyDjinniLibrary"]

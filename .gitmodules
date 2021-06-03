@@ -1,0 +1,6 @@
+[submodule "cmake/modules/djinni-cmake"]
+	path = cmake/modules/djinni-cmake
+	url = git@github.com:jothepro/djinni-cmake.git
+[submodule "docs/doxygen-awesome-css"]
+	path = docs/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
