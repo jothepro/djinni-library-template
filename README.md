@@ -100,7 +100,7 @@ any Swift/Objective-C project. Note that for iOS two different platforms need to
 and the real iPhone hardware:
 
 ```bash
-./build.py --iphoneos armv8 --iphonesimulator x86_64 armv8 --macos x86_64 armv8
+./build.py --iphoneos armv8 --iphonesimulator x86_64 armv8 --macos x86_64 armv8 --xcframework
 ```
 
 This results in an XCFramework that contains binaries for
