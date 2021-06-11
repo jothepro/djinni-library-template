@@ -211,6 +211,8 @@ class WindowsBuildContext(BuildContext):
         nupkg will be copied to the build output folder """
         nupkg_root_dir = f'{workdir}/lib/platform/windows'
         nuspec = f'{target}.nuspec'
+        shutil.copy(src=f'{self.build_directory}/{self.architectures[0].name}/lib/{self.configuration.value}/{target}.dll',
+                    dst=f'{nupkg_root_dir}/lib/net5.0/')
         for architecture in self.architectures:
             destination = f'{nupkg_root_dir}/runtimes/{architecture.value.windows}/lib/net5.0/'
             shutil.copy(src=f'{self.build_directory}/{architecture.name}/lib/{self.configuration.value}/{target}.dll',
