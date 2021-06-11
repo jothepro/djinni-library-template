@@ -173,12 +173,18 @@ class DarwinBuildContext(BuildContext):
             os.mkdir(lipo_dir)
             shutil.copytree(
                 src=f'{self.build_directory}/{self.architectures[0]}/lib/{self.target_folder}/{target}.framework',
-                dst=f'{lipo_dir}/lib/{self.target_folder}/{target}.framework')
+                dst=f'{lipo_dir}/lib/{self.target_folder}/{target}.framework', symlinks=True)
             lipo_input: str = ''
+            lipo_output: str = f'{lipo_dir}/lib/{self.target_folder}/{target}.framework/{target}'
+            if self.sdk == 'macosx':
+                lipo_output: str = f'{lipo_dir}/lib/{self.target_folder}/{target}.framework/Versions/A/{target}'
             for architecture in self.architectures:
-                lipo_input += f'{self.build_directory}/{architecture}/lib/{self.target_folder}/{target}.framework/{target} '
+                if self.sdk == 'macosx':
+                    lipo_input += f'{self.build_directory}/{architecture}/lib/{self.target_folder}/{target}.framework/Versions/A/{target} '
+                else:
+                    lipo_input += f'{self.build_directory}/{architecture}/lib/{self.target_folder}/{target}.framework/{target} '
             os.system(
-                f'lipo {lipo_input} -create -output {lipo_dir}/lib/{self.target_folder}/{target}.framework/{target}')
+                f'lipo {lipo_input} -create -output {lipo_output}')
 
     @staticmethod
     def package(build_context_list: [BuildContext], configuration: BuildConfiguration, build_directory: str):
@@ -271,7 +277,7 @@ def main():
                         help='JAVA_HOME for a Java 1.8 installation. Required if building for Android')
     parser.add_argument('--java-11-home', dest='java_11_home', type=str,
                         help='JAVA_HOME for a Java Version > 11. Required if building for Android')
-    parser.add_argument('--render-docs', action='store_const', const=True, dest='render_docs',
+    parser.add_argument('--render-docs', action='store_const', const=False, dest='render_docs',
                         help='render doxygen documentation for the languages of the selected target platforms')
 
     arguments = parser.parse_args()

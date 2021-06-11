@@ -22,7 +22,7 @@ class MyLibraryConan(ConanFile):
     license = "AGPL-3.0-or-later"
     generators = "cmake_find_package", "cmake_paths"
     exports = "VERSION"
-    exports_sources = "lib/*", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
+    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
     author = "jothepro"
     options = {
         "shared": [True, False],

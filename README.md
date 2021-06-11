@@ -141,6 +141,8 @@ The library comes preconfigured for Unit-Testing with Catch2:
 * **Commandline:** To run just the unit-tests, you can run `conan build .. --test`.
 * **CLion:** Execute the `MyDjinniLibraryTest` target
 
+Building & executing tests is **not supported on Windows**!
+
 ### Documentation
 
 The repository comes with 4 different doxygen configurations, each is for a different target language:
