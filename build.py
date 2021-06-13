@@ -104,6 +104,7 @@ class AndroidBuildContext(BuildContext):
         for architecture in self.architectures:
             self.conan_install(architecture=architecture,
                                env=[f"CONAN_CMAKE_TOOLCHAIN_FILE={conan_cmake_toolchain_file}",
+                                    f"ANDROID_ABI={architecture.value.android}",
                                     f"ANDROID_NDK={android_ndk}",
                                     f"JAVA_HOME=\"{java_home}\""])
 
