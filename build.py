@@ -277,7 +277,7 @@ def main():
                         help='JAVA_HOME for a Java 1.8 installation. Required if building for Android')
     parser.add_argument('--java-11-home', dest='java_11_home', type=str,
                         help='JAVA_HOME for a Java Version > 11. Required if building for Android')
-    parser.add_argument('--render-docs', action='store_const', const=False, dest='render_docs',
+    parser.add_argument('--render-docs', action='store_const', const=True, dest='render_docs',
                         help='render doxygen documentation for the languages of the selected target platforms')
 
     arguments = parser.parse_args()
@@ -338,8 +338,8 @@ def main():
         iphone.install()
         iphone.build()
 
-    if (arguments.macos_architectures is not None) or (arguments.iphonesimulator_architectures is not None) or (
-            arguments.iphoneos_architectures is not None):
+    if arguments.render_docs and ((arguments.macos_architectures is not None) or (arguments.iphonesimulator_architectures is not None) or (
+            arguments.iphoneos_architectures is not None)):
         DarwinBuildContext.render_doxygen_docs()
 
     if arguments.xcframework:
