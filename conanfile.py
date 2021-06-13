@@ -25,11 +25,9 @@ class MyLibraryConan(ConanFile):
     exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
     author = "jothepro"
     options = {
-        "shared": [True, False],
         "fPIC": [True, False]
     }
     default_options = {
-        "shared": False,
         "fPIC": True
     }
     requires = (
@@ -47,6 +45,8 @@ class MyLibraryConan(ConanFile):
         elif self.settings.os == "Windows":
             generator = "Visual Studio 16 2019"
         cmake = CMake(self, generator=generator)
+        if self.settings.os == "Android":
+            cmake.definitions["ANDROID_PLATFORM"] = self.settings.os.api_level
         if not tools.get_env("CONAN_RUN_TESTS", True):
             cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.configure()
