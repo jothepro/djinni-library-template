@@ -10,6 +10,7 @@ from string import Template
 import shutil
 
 conan = Conan()
+print_prefix = '[build.py]'
 workdir = os.getcwd()
 target: str = 'MyDjinniLibrary'
 android_profile = f'{workdir}/conan/profiles/android'
@@ -78,11 +79,13 @@ class BuildContext:
     def build(self):
         """builds all selected architectures"""
         for architecture in self.architectures:
+            print(f'{print_prefix} building for architecture {architecture.name}:')
             conan.build(conanfile_path=workdir, build_folder=f"{self.build_directory}/{architecture.value.conan}")
 
     def conan_install(self, architecture: Architecture, settings: list[str] = [],
                       env: list[str] = []):
         """installs all conan dependencies defined in conanfile.py"""
+        print(f'{print_prefix} installing dependencies for architecture {architecture.name}:')
         all_settings = settings + [f"arch={architecture.value.conan}",
                                    f'build_type={self.configuration.value}']
         all_env = env + ['CONAN_RUN_TESTS=False']
@@ -94,6 +97,7 @@ class BuildContext:
     @staticmethod
     def render_doxygen_docs(doxyfile: str):
         """calls doxygen with the given Doxyfile."""
+        print(f'{print_prefix} generating documentation from {doxyfile}:')
         os.system(f'doxygen {doxyfile}')
 
 
@@ -110,20 +114,21 @@ class AndroidBuildContext(BuildContext):
 
     def package(self, java_home: str):
         """copies all resources into the Android Studio project and builds it"""
+        print(f'{print_prefix} packaging to AAR:')
         for architecture in self.architectures:
-            print(f'copy `lib{target}.so` for architecture {architecture.value.conan} to Android Studio Project')
+            print(f'{print_prefix} copy `lib{target}.so` for architecture {architecture.value.conan} to Android Studio Project')
             shutil.copy(src=f'{self.build_directory}/{architecture.value.conan}/lib/lib{target}.so',
                         dst=f'{android_module_dir}/src/main/jniLibs/{architecture.value.android}')
-        print(f'copy `{target}.jar` to Android Studio Project')
+        print(f'{print_prefix} copy `{target}.jar` to Android Studio Project')
         shutil.copy(src=f'{self.build_directory}/{self.architectures[0].value.conan}/lib/{target}.jar',
                     dst=f'{android_module_dir}/libs')
-        print('build Android Studio Project')
+        print(f'{print_prefix} build Android Studio Project')
         os.chdir(android_project_dir)
         os.putenv('JAVA_HOME', java_home)
         ret = os.system(f'./gradlew assemble{self.configuration.value}')
         os.chdir(workdir)
         if ret != 0:
-            print('building Android Studio Project has failed', file=sys.stderr)
+            print(f'{print_prefix} building Android Studio Project has failed', file=sys.stderr)
             exit(2)
         shutil.copy(src=f'{android_module_dir}/build/outputs/aar/{target}-{self.configuration.name}.aar',
                     dst=f'{self.build_directory}')
@@ -190,6 +195,7 @@ class DarwinBuildContext(BuildContext):
     @staticmethod
     def package(build_context_list: [BuildContext], configuration: BuildConfiguration, build_directory: str):
         """combines the frameworks targeting different architectures into one big XCFramework for distribution."""
+        print(f'{print_prefix} packaging to xcframework:')
         output_file = f'{build_directory}/{target}-{configuration.name}.xcframework'
         arguments = f'-output {output_file} '
         for build_context in build_context_list:
@@ -216,6 +222,7 @@ class WindowsBuildContext(BuildContext):
     def package(self):
         """Copies all dlls into the NuGet template in `lib/platform/windows` and runs `nuget pack`. The resulting
         nupkg will be copied to the build output folder """
+        print(f'{print_prefix} packaging to NuGet package:')
         nupkg_root_dir = f'{workdir}/lib/platform/windows'
         nuspec = f'{target}.nuspec'
         shutil.copy(src=f'{self.build_directory}/{self.architectures[0].name}/lib/{self.configuration.value}/{target}.dll',
