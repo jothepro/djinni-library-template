@@ -1,5 +1,4 @@
 include(default)
-
 [settings]
 os=Windows
 compiler=Visual Studio

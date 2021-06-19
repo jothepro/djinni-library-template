@@ -11,7 +11,7 @@ add_djinni_library(MyDjinniLibrary SHARED
         src/example.cpp
 )
 
-add_library(My::Example::MyDjinniLibrary ALIAS MyDjinniLibrary)
+add_library(MyDjinniLibrary::MyDjinniLibrary ALIAS MyDjinniLibrary)
 
 djinni_target_link_support_lib(MyDjinniLibrary v1.0.0)
 

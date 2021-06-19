@@ -1,8 +1,6 @@
 include(default)
-
 [settings]
 os=Macos
 os.version=11.0
-
 [build_requires]
 darwin-toolchain/1.0@theodelrieu/stable

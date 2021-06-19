@@ -38,6 +38,9 @@ class MyLibraryConan(ConanFile):
         "djinni-generator/1.0.0"
     )
 
+    def imports(self):
+        self.copy("*", dst="test/lib", src="@libdirs")
+
     def build(self):
         generator = None
         if tools.is_apple_os(self.settings.os):
@@ -45,6 +48,8 @@ class MyLibraryConan(ConanFile):
         elif self.settings.os == "Windows":
             generator = "Visual Studio 16 2019"
         cmake = CMake(self, generator=generator)
+        if self.settings.os == "Android":
+            cmake.definitions["ANDROID_PLATFORM"] = self.settings.os.api_level
         if not tools.get_env("CONAN_RUN_TESTS", True):
             cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.configure()

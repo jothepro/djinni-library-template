@@ -1,0 +1,7 @@
+include(default)
+[settings]
+compiler=gcc
+os=Linux
+[build_requires]
+[options]
+[env]
