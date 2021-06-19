@@ -87,7 +87,7 @@ while the Library itself needs to be built for Java 8 in order to work with a An
   
 In addition to that you need to provide the NDK that you want to build with.
 ```bash
-./build.py --android x86_64 armv8 --aar --android-ndk /path/to/your/ndk/22.0.6917172 --java-11-home /path/to/java/11/Home --java-8-home /path/to/java/8/Home
+./build.py --android x86_64 armv8 --package aar --android-ndk /path/to/your/ndk/22.0.6917172 --java-11-home /path/to/java/11/Home --java-8-home /path/to/java/8/Home
 ```
 
 This results in an Android Library (AAR) that contains both the Java-Gluecode required to call the native Library
@@ -100,7 +100,7 @@ any Swift/Objective-C project. Note that for iOS two different platforms need to
 and the real iPhone hardware:
 
 ```bash
-./build.py --iphoneos armv8 --iphonesimulator x86_64 armv8 --macos x86_64 armv8 --xcframework
+./build.py --iphoneos armv8 --iphonesimulator x86_64 armv8 --macos x86_64 armv8 --package xcframework
 ```
 
 This results in an XCFramework that contains binaries for
@@ -112,7 +112,7 @@ This results in an XCFramework that contains binaries for
 ##### Building a .NET 5 NuGet package
 
 ```bash
-./build.py --windows x86_64 x86 armv8 --nuget
+./build.py --windows x86_64 x86 armv8 --package nuget
 ```
 
 This results in a NuGet package that contains binaries for 3 different architectures (`x86_64`, `x86` and `arm64`).
