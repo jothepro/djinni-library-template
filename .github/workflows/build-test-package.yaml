@@ -33,7 +33,7 @@ jobs:
       - name: Install Conan
         uses: turtlebrowser/get-conan@main
       - name: Conan install
-        run: conan install -if build
+        run: conan install -if build .
       - name: Conan build & test
         run: conan build ..
         working-directory: build
