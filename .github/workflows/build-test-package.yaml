@@ -89,7 +89,7 @@ jobs:
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
-          doxyfile-path: 'Doxygen-Java'
+          doxyfile-path: 'Doxyfile-Java'
 
   build_darwin:
     name: Package for Darwin (swiftpackage)
@@ -113,7 +113,7 @@ jobs:
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
-          doxyfile-path: 'Doxygen-ObjC'
+          doxyfile-path: 'Doxyfile-ObjC'
 
   build_windows:
     name: Package for Windows (NuGet)
@@ -137,7 +137,7 @@ jobs:
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
-          doxyfile-path: 'Doxygen-CppCli'
+          doxyfile-path: 'Doxyfile-CppCli'
 
   build_linux:
     name: Package for Linux (Conan)
@@ -161,4 +161,4 @@ jobs:
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
-          doxyfile-path: 'Doxygen-Cpp'
+          doxyfile-path: 'Doxfile-Cpp'
