@@ -9,7 +9,7 @@ SCENARIO("MyDjinniLibrary testing", "[test]") {
     WHEN("calling Example::helloFromCpp()") {
         auto result = Example::hello_from_cpp();
         THEN("the result should be: 'hello from cpp'") {
-            REQUIRE(result == "hello from cpp");
+            REQUIRE(result == "test");
         }
     }
 }

@@ -22,7 +22,7 @@ class MyLibraryConan(ConanFile):
     license = "AGPL-3.0-or-later"
     generators = "cmake_find_package", "cmake_paths"
     exports = "VERSION"
-    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
+    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "lib/platform/*/CMakeLists.txt", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
     author = "jothepro"
     options = {
         "fPIC": [True, False]
@@ -31,15 +31,11 @@ class MyLibraryConan(ConanFile):
         "fPIC": True
     }
     requires = (
-
     )
     build_requires = (
         "catch2/2.13.4",
-        "djinni-generator/1.0.0"
+        "djinni-generator/1.1.0"
     )
-
-    def imports(self):
-        self.copy("*", dst="test/lib", src="@libdirs")
 
     def build(self):
         generator = None
@@ -59,6 +55,4 @@ class MyLibraryConan(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.names["cmake_find_package"] = "MyDjinniLibrary"
-        self.cpp_info.names["cmake_find_package_multi"] = "MyDjinniLibrary"
-        self.cpp_info.libs = ["MyDjinniLibrary"]
+        self.cpp_info.libs = tools.collect_libs(self)
