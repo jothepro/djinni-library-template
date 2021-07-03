@@ -2,7 +2,6 @@ on:
   release:
     types: [released]
   pull_request:
-  push:
 
 name: Run Unit Tests and build packages for all target platforms
 
