@@ -1,6 +1,8 @@
 on:
   release:
     types: [released]
+  pull_request:
+  push:
 
 name: Run Unit Tests and build packages for all target platforms
 
@@ -31,6 +33,7 @@ jobs:
         with:
           ssh-key: ${{ secrets.SUBMODULE_CONTENT_PULL_KEY }}
           submodules: true
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -46,6 +49,7 @@ jobs:
     name: Package for Android (AAR)
     runs-on: ubuntu-latest
     needs: test
+    if: github.event_name == 'release'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -86,6 +90,7 @@ jobs:
     name: Package for Darwin (iOS, macOS)
     runs-on: macos-latest
     needs: test
+    if: github.event_name == 'release'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -105,6 +110,7 @@ jobs:
     name: Package for Windows (NuGet)
     runs-on: windows-latest
     needs: test
+    if: github.event_name == 'release'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -124,6 +130,7 @@ jobs:
     name: Package for Linux (Conan)
     runs-on: ubuntu-latest
     needs: test
+    if: github.event_name == 'release'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
