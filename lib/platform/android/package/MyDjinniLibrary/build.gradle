@@ -48,7 +48,7 @@ publishing {
         myPulication(MavenPublication) {
             groupId 'my.djinnilibrary'
             version version
-            artifactId 'MyDjinniLibrary'
+            artifactId 'mydjinnilibrary'
             artifact("$buildDir/outputs/aar/MyDjinniLibrary-release.aar")
         }
     }

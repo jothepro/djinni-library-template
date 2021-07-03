@@ -17,6 +17,10 @@ env:
   CONAN_REPOSITORY: https://artifactory.jothe.pro/artifactory/api/conan/conan-private
   CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
   CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+  SWIFTPACKAGE_GITSERVER: github.com/jothepro
+  SWIFTPACKAGE_REPOSITORY: djinni-library-template-swiftpackage
+  SWIFTPACKAGE_REPOSITORY_USERNAME: jothepro
+  SWIFTPACKAGE_REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
 
 jobs:
   test:
@@ -111,6 +115,15 @@ jobs:
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
+      - name: publish
+        run: |
+          git clone -–depth 1 https://$SWIFTPACKAGE_REPOSITORY_USERNAME:SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/SWIFTPACKAGE_REPOSITORY.git
+          cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY
+          VERSION=`git describe --tags`
+          cd $SWIFTPACKAGE_REPOSITORY
+          git tag $VERSION
+          git push --atomic origin main $VERSION
+        working-directory: build/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-ObjC
       - name: generate documentation
@@ -144,7 +157,7 @@ jobs:
       - name: configure, build and package
         run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
       - name: publish
-        run: nuget push MyDjinniLibrary.*.nupkg -source ${NUGET_REPOSITORY} -ApiKey ${NUGET_API_KEY}
+        run: nuget push MyDjinniLibrary.*.nupkg -source $env:NUGET_REPOSITORY -ApiKey $env:NUGET_API_KEY
         working-directory: build/windows/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-CppCli
