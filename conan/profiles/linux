@@ -2,6 +2,7 @@ include(default)
 [settings]
 compiler=gcc
 os=Linux
+compiler.libcxx=libstdc++11
 [build_requires]
 [options]
 [env]

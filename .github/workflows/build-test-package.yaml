@@ -21,7 +21,7 @@ env:
 
 jobs:
   test:
-    name: Build and test
+    name: Build & test
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -44,6 +44,7 @@ jobs:
       - name: Conan build & test
         run: conan build ..
         working-directory: build
+
   build_android:
     name: Package for Android (AAR)
     runs-on: ubuntu-latest
@@ -74,6 +75,7 @@ jobs:
       - name: Store Java 11 Home in variable
         run: echo "JAVA_11_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | sed -n -e 's/^.*java.home = //p')" >> $GITHUB_ENV
       - name: Install NDK
+        id: setup-ndk
         uses: nttld/setup-ndk@v1
         with:
           ndk-version: r22b
@@ -81,12 +83,16 @@ jobs:
       - name: Install Python requirements
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
-        run: ./build.py --android x86 x86_64 armv7 armv8 --android-ndk ${ANDROID_NDK_HOME} --java-11-home ${JAVA_11_HOME} --java-8-home ${JAVA_8_HOME} --configuration release --package aar --render-docs
+        run: ./build.py --android x86 x86_64 armv7 armv8 --android-ndk ${ANDROID_NDK_HOME} --java-11-home ${JAVA_11_HOME} --java-8-home ${JAVA_8_HOME} --configuration release --package aar
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+      - name: generate documentation
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: 'Doxygen-Java'
 
   build_darwin:
-    name: Package for Darwin (iOS, macOS)
+    name: Package for Darwin (swiftpackage)
     runs-on: macos-latest
     needs: test
     if: github.event_name == 'release'
@@ -103,7 +109,11 @@ jobs:
       - name: Install Python requirements
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
-        run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release  --render-docs
+        run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
+      - name: generate documentation
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: 'Doxygen-ObjC'
 
   build_windows:
     name: Package for Windows (NuGet)
@@ -123,7 +133,11 @@ jobs:
       - name: Install Python requirements
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
-        run: ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release --render-docs
+        run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
+      - name: generate documentation
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: 'Doxygen-CppCli'
 
   build_linux:
     name: Package for Linux (Conan)
@@ -143,4 +157,8 @@ jobs:
       - name: Install Python requirements
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
-        run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration release --render-docs
+        run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration release
+      - name: generate documentation
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+          doxyfile-path: 'Doxygen-Cpp'
