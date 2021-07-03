@@ -91,11 +91,12 @@ jobs:
         with:
           doxyfile-path: 'Doxyfile-Java'
       - name: Publish generated docs to GitHub Pages
-        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          dir: docs/generated/html
-          branch: gh-pages
-          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          publish_dir: docs/generated/html
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          exclude_assets: '.gitignore'
+          keep_files: true
 
   build_darwin:
     name: Package for Darwin (swiftpackage)
@@ -118,7 +119,7 @@ jobs:
         run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
       - name: publish
         run: |
-          git clone --depth 1 https://$SWIFTPACKAGE_REPOSITORY_USERNAME:SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/SWIFTPACKAGE_REPOSITORY.git
+          git clone --depth 1 https://$SWIFTPACKAGE_REPOSITORY_USERNAME:$SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/$SWIFTPACKAGE_REPOSITORY.git
           cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY
           VERSION=`git describe --tags`
           cd $SWIFTPACKAGE_REPOSITORY
@@ -132,11 +133,12 @@ jobs:
         with:
           doxyfile-path: 'Doxyfile-ObjC'
       - name: Publish generated docs to GitHub Pages
-        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          dir: docs/generated/html
-          branch: gh-pages
-          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          publish_dir: docs/generated/html
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          exclude_assets: '.gitignore'
+          keep_files: true
 
   build_windows:
     name: Package for Windows (NuGet)
@@ -160,7 +162,7 @@ jobs:
       - name: publish
         run: |
           nuget sources add -Name nuget_server -Source $env:NUGET_REPOSITORY -username $env:NUGET_USERNAME -password $env:NUGET_PASSWORD
-          nuget push MyDjinniLibrary.*.nupkg -Source nuget_server
+          nuget push MyDjinniLibrary.*.nupkg -Source nuget_server -ApiKey $env:NUGET_PASSWORD
         working-directory: build/windows/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-CppCli
@@ -169,11 +171,12 @@ jobs:
         with:
           doxyfile-path: 'Doxyfile-CppCli'
       - name: Publish generated docs to GitHub Pages
-        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          dir: docs/generated/html
-          branch: gh-pages
-          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          publish_dir: docs/generated/html
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          exclude_assets: '.gitignore'
+          keep_files: true
 
   build_linux:
     name: Package for Linux (Conan)
@@ -201,8 +204,9 @@ jobs:
         with:
           doxyfile-path: 'Doxyfile-Cpp'
       - name: Publish generated docs to GitHub Pages
-        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          dir: docs/generated/html
-          branch: gh-pages
-          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          publish_dir: docs/generated/html
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          exclude_assets: '.gitignore'
+          keep_files: true
