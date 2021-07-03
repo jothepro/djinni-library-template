@@ -8,14 +8,15 @@ name: Run Unit Tests and build packages for all target platforms
 env:
   # Maven credentials for publishing the AAR
   MAVEN_REPOSITORY: https://maven.pkg.github.com/jothepro/djinni-library-template
-  MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+  MAVEN_USERNAME: jothepro
   MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
   # NuGet credentials for publishing the NuGet package for .NET Core
   NUGET_REPOSITORY: https://nuget.pkg.github.com/jothepro/index.json
-  NUGET_API_KEY: ${{ secrets.NUGET_PASSWORD }}
+  NUGET_USERNAME: jothepro
+  NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
   # Conan credentials for publishing the raw conan artifacts.
   CONAN_REPOSITORY: https://artifactory.jothe.pro/artifactory/api/conan/conan-private
-  CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+  CONAN_LOGIN_USERNAME: jothepro
   CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
   SWIFTPACKAGE_GITSERVER: github.com/jothepro
   SWIFTPACKAGE_REPOSITORY: djinni-library-template-swiftpackage
@@ -117,7 +118,7 @@ jobs:
         run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
       - name: publish
         run: |
-          git clone -–depth 1 https://$SWIFTPACKAGE_REPOSITORY_USERNAME:SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/SWIFTPACKAGE_REPOSITORY.git
+          git clone --depth 1 https://$SWIFTPACKAGE_REPOSITORY_USERNAME:SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/SWIFTPACKAGE_REPOSITORY.git
           cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY
           VERSION=`git describe --tags`
           cd $SWIFTPACKAGE_REPOSITORY
@@ -157,7 +158,9 @@ jobs:
       - name: configure, build and package
         run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
       - name: publish
-        run: nuget push MyDjinniLibrary.*.nupkg -source $env:NUGET_REPOSITORY -ApiKey $env:NUGET_API_KEY
+        run: |
+          nuget sources add -Name nuget_server -Source $env:NUGET_REPOSITORY -username $env:NUGET_USERNAME -password $env:NUGET_PASSWORD
+          nuget push MyDjinniLibrary.*.nupkg -Source nuget_server
         working-directory: build/windows/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-CppCli
