@@ -81,13 +81,11 @@ pip3 install -r requirements.txt
 
 ##### Building an Android AAR
 
-When building for Android, both a Java 11 & Java 8 SDK installation is required.
-This is due to the fact that the gradle plugin for building an AAR requires Java 11, 
-while the Library itself needs to be built for Java 8 in order to work with a Android Project.
-  
-In addition to that you need to provide the NDK that you want to build with.
+When building for Android, Java 11 is required.
+In addition to that you need to provide the NDK that you want to build with as environment variable `ANDROID_NDK_HOME`.
 ```bash
-./build.py --android x86_64 armv8 --package aar --android-ndk /path/to/your/ndk/22.0.6917172 --java-11-home /path/to/java/11/Home --java-8-home /path/to/java/8/Home
+export ANDROID_NDK_HOME=/path/to/your/ndk/22.0.6917172
+./build.py --android x86_64 armv8 --package aar
 ```
 
 This results in an Android Library (AAR) that contains both the Java-Gluecode required to call the native Library

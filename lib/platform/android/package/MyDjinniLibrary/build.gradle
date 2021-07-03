@@ -1,7 +1,11 @@
 plugins {
     id 'com.android.library'
     id 'com.kezong.fat-aar'
+    id 'maven-publish'
 }
+
+
+version = new File('../../../../VERSION').text
 
 android {
     compileSdk 30
@@ -10,11 +14,9 @@ android {
     defaultConfig {
         minSdk 28
         targetSdk 30
-        versionCode 1
-        versionName "1.0"
-
+        versionCode version.replaceAll("[.]", "").toInteger()
+        versionName version
         consumerProguardFiles "consumer-rules.pro"
-
     }
 
     buildTypes {
@@ -24,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     packagingOptions{
@@ -36,11 +38,27 @@ android {
     }
 }
 
-
-
 dependencies {
     embed name: 'MyDjinniLibrary'
     implementation name: 'MyDjinniLibrary'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
+}
+
+publishing {
+    publications {
+        myPulication(MavenPublication) {
+            groupId 'my.djinnilibrary'
+            version version
+            artifactId 'MyDjinniLibrary'
+            artifact("$buildDir/outputs/aar/MyDjinniLibrary-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username System.getenv("MAVEN_USERNAME")
+                password System.getenv("MAVEN_PASSWORD")
+            }
+            url System.getenv("MAVEN_REPOSITORY")
+        }
+    }
 }

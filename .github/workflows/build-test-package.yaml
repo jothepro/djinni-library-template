@@ -12,8 +12,7 @@ env:
   MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
   # NuGet credentials for publishing the NuGet package for .NET Core
   NUGET_REPOSITORY: https://nuget.pkg.github.com/jothepro/index.json
-  NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
-  NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
+  NUGET_API_KEY: ${{ secrets.NUGET_PASSWORD }}
   # Conan credentials for publishing the raw conan artifacts.
   CONAN_REPOSITORY: https://artifactory.jothe.pro/artifactory/api/conan/conan-private
   CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
@@ -56,24 +55,15 @@ jobs:
         with:
           ssh-key: ${{ secrets.SUBMODULE_CONTENT_PULL_KEY }}
           submodules: true
-      - name: Set up Python
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install Java 8
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '8'
-      - name: Store Java 8 Home in variable
-        run: echo "JAVA_8_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | sed -n -e 's/^.*java.home = //p')" >> $GITHUB_ENV
       - name: Install Java 11
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '11'
-      - name: Store Java 11 Home in variable
-        run: echo "JAVA_11_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | sed -n -e 's/^.*java.home = //p')" >> $GITHUB_ENV
       - name: Install NDK
         id: setup-ndk
         uses: nttld/setup-ndk@v1
@@ -83,13 +73,24 @@ jobs:
       - name: Install Python requirements
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
-        run: ./build.py --android x86 x86_64 armv7 armv8 --android-ndk ${ANDROID_NDK_HOME} --java-11-home ${JAVA_11_HOME} --java-8-home ${JAVA_8_HOME} --configuration release --package aar
+        run: ./build.py --android x86 x86_64 armv7 armv8 --configuration release --package aar
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+      - name: publish
+        run: ./gradlew publish
+        working-directory: lib/platform/android/package/
+      - name: set version to Doxyfile
+        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-Java
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: 'Doxyfile-Java'
+      - name: Publish generated docs to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        with:
+          dir: docs/generated/html
+          branch: gh-pages
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
 
   build_darwin:
     name: Package for Darwin (swiftpackage)
@@ -110,10 +111,18 @@ jobs:
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
+      - name: set version to Doxyfile
+        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-ObjC
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: 'Doxyfile-ObjC'
+      - name: Publish generated docs to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        with:
+          dir: docs/generated/html
+          branch: gh-pages
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
 
   build_windows:
     name: Package for Windows (NuGet)
@@ -134,10 +143,21 @@ jobs:
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
+      - name: publish
+        run: nuget push MyDjinniLibrary.*.nupkg -source ${NUGET_REPOSITORY} -ApiKey ${NUGET_API_KEY}
+        working-directory: build/windows/
+      - name: set version to Doxyfile
+        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-CppCli
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
           doxyfile-path: 'Doxyfile-CppCli'
+      - name: Publish generated docs to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        with:
+          dir: docs/generated/html
+          branch: gh-pages
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
 
   build_linux:
     name: Package for Linux (Conan)
@@ -158,7 +178,15 @@ jobs:
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration release
+      - name: set version to Doxyfile
+        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-Cpp
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
-          doxyfile-path: 'Doxfile-Cpp'
+          doxyfile-path: 'Doxyfile-Cpp'
+      - name: Publish generated docs to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+        with:
+          dir: docs/generated/html
+          branch: gh-pages
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
