@@ -1,21 +1,30 @@
 var indexSectionsWithContent =
 {
-  0: "dir",
-  1: "ir",
-  2: "di"
+  0: "dehimnr~",
+  1: "en",
+  2: "m",
+  3: "einr",
+  4: "h~",
+  5: "di"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "files",
-  2: "pages"
+  1: "classes",
+  2: "namespaces",
+  3: "files",
+  4: "functions",
+  5: "pages"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Files",
-  2: "Pages"
+  1: "Classes",
+  2: "Namespaces",
+  3: "Files",
+  4: "Functions",
+  5: "Pages"
 };
 
