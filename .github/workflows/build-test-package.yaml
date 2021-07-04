@@ -24,6 +24,19 @@ env:
   SWIFTPACKAGE_REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
 
 jobs:
+  version:
+    name: get version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.SUBMODULE_CONTENT_PULL_KEY }}
+      - name: determine version from latest git tag
+        id: git_describe
+        run: echo "::set-output name=version::`git describe --tags`"
+    outputs:
+      version: ${{ steps.git_describe.outputs.version }}
   test:
     name: Build & test
     strategy:
@@ -52,7 +65,9 @@ jobs:
   build_android:
     name: Package for Android (AAR)
     runs-on: ubuntu-latest
-    needs: test
+    needs:
+      - test
+      - version
     if: github.event_name == 'release'
     steps:
       - name: Checkout
@@ -85,7 +100,9 @@ jobs:
         run: ./gradlew publish
         working-directory: lib/platform/android/package/
       - name: set version to Doxyfile
-        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-Java
+        run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Java
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
@@ -93,15 +110,17 @@ jobs:
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: docs/generated/html
+          publish_dir: docs/generated/html/java
+          destination_dir: java
           github_token: ${{ secrets.GITHUB_TOKEN }}
           exclude_assets: '.gitignore'
-          keep_files: true
 
   build_darwin:
     name: Package for Darwin (swiftpackage)
     runs-on: macos-latest
-    needs: test
+    needs:
+      - test
+      - version
     if: github.event_name == 'release'
     steps:
       - name: Checkout
@@ -119,15 +138,20 @@ jobs:
         run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
       - name: publish
         run: |
-          git clone --depth 1 https://$SWIFTPACKAGE_REPOSITORY_USERNAME:$SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/$SWIFTPACKAGE_REPOSITORY.git
+          GIT_URL=https://$SWIFTPACKAGE_REPOSITORY_USERNAME:$SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/$SWIFTPACKAGE_REPOSITORY.git
+          git clone --depth 1 $GIT_URL
           cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY
           VERSION=`git describe --tags`
           cd $SWIFTPACKAGE_REPOSITORY
+          git add .
+          git commit -m "version $VERSION"
           git tag $VERSION
-          git push --atomic origin main $VERSION
+          git push --atomic $GIT_URL main $VERSION
         working-directory: build/
       - name: set version to Doxyfile
-        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-ObjC
+        run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-ObjC
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
@@ -135,15 +159,17 @@ jobs:
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: docs/generated/html
+          publish_dir: docs/generated/html/objc
+          destination_dir: objc
           github_token: ${{ secrets.GITHUB_TOKEN }}
           exclude_assets: '.gitignore'
-          keep_files: true
 
   build_windows:
     name: Package for Windows (NuGet)
     runs-on: windows-latest
-    needs: test
+    needs:
+      - test
+      - version
     if: github.event_name == 'release'
     steps:
       - name: Checkout
@@ -165,7 +191,9 @@ jobs:
           nuget push MyDjinniLibrary.*.nupkg -Source nuget_server -ApiKey $env:NUGET_PASSWORD
         working-directory: build/windows/
       - name: set version to Doxyfile
-        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-CppCli
+        run: echo "PROJECT_NUMBER = $env:VERSION" | Out-File -FilePath Doxyfile-CppCli -Encoding utf-8 -Append
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
@@ -173,10 +201,10 @@ jobs:
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: docs/generated/html
+          publish_dir: docs/generated/html/cppcli
+          destination_dir: cppcli
           github_token: ${{ secrets.GITHUB_TOKEN }}
           exclude_assets: '.gitignore'
-          keep_files: true
 
   build_linux:
     name: Package for Linux (Conan)
@@ -198,7 +226,9 @@ jobs:
       - name: configure, build and package
         run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration release
       - name: set version to Doxyfile
-        run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile-Cpp
+        run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Cpp
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
@@ -206,7 +236,7 @@ jobs:
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: docs/generated/html
+          publish_dir: docs/generated/html/cpp
+          destination_dir: cpp
           github_token: ${{ secrets.GITHUB_TOKEN }}
           exclude_assets: '.gitignore'
-          keep_files: true
