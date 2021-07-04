@@ -151,7 +151,7 @@ jobs:
         env:
           VERSION: ${{ needs.version.outputs.version }}
       - name: generate documenation
-        uses: |
+        run: |
           brew install doxygen@1.9.1 graphviz@2.47.3
           doxygen Doxyfile-ObjC
       - name: Publish generated docs to GitHub Pages
