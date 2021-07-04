@@ -23,6 +23,9 @@ A template for a Djinni library that can be used in Java/Kotlin on Android, ObjC
 
 ## Installation
 
+- Android: [my.djinnilibrary.mydjinnilibrary (Maven)](https://github.com/jothepro/djinni-library-template/packages/881665)
+- Windows: [MyDjinniLibrary (NuGet)](https://github.com/jothepro/djinni-library-template/packages/881693)
+- Darwin: [djinni-library-template-swiftpackage (Swift Package)](https://github.com/jothepro/djinni-library-template-swiftpackage)
 
 ## Development
 
