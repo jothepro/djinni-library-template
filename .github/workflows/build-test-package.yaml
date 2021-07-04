@@ -235,7 +235,7 @@ jobs:
       - name: publish
         run: |
           conan remote add conan_repository $CONAN_REPOSITORY
-          conan upload my_djinni_library/$VERSION@_/_ --all --remote=conan_repository
+          conan upload my_djinni_library/$VERSION@$CONAN_LOGIN_USERNAME/release --all --remote=conan_repository
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Cpp
       - name: generate documentation
