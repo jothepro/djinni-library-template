@@ -146,7 +146,8 @@ jobs:
           git add .
           git commit -m "version $VERSION"
           git tag $VERSION
-          git push --atomic $GIT_URL main $VERSION
+          git push
+          git push --tags
         working-directory: build/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-ObjC
