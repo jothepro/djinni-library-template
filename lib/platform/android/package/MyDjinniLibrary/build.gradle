@@ -14,8 +14,6 @@ android {
     defaultConfig {
         minSdk 28
         targetSdk 30
-        versionCode version.replaceAll("[.]", "").toInteger()
-        versionName version
         consumerProguardFiles "consumer-rules.pro"
     }
 
