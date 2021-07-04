@@ -91,7 +91,7 @@ jobs:
           ndk-version: r22b
           add-to-path: false
       - name: Install Python requirements
-        run: pip install -r djinni_build/requirements.txt
+        run: pip install -r build_tools/djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --android armv8 --configuration release --package aar # --android x86 x86_64 armv7 armv8 --configuration release --package aar
         env:
@@ -133,7 +133,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Python requirements
-        run: pip install -r djinni_build/requirements.txt
+        run: pip install -r build_tools/djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --macos x86_64 --iphonesimulator x86_64 --iphoneos armv8 --package xcframework swiftpackage --configuration release # --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
       - name: publish
@@ -180,7 +180,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Python requirements
-        run: pip install -r djinni_build/requirements.txt
+        run: pip install -r build_tools/djinni_build/requirements.txt
       - name: configure, build and package
         run: python3 ./build.py --windows x86_64 --package nuget --configuration release # --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
       - name: publish
@@ -225,7 +225,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Python requirements
-        run: pip install -r djinni_build/requirements.txt
+        run: pip install -r build_tools/djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --linux x86_64 --package conan --configuration release # --linux x86 x86_64 armv7 armv8 --package conan --configuration release
       - name: publish

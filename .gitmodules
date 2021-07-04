@@ -5,5 +5,5 @@
 	path = docs/doxygen-awesome-css
 	url = https://github.com/jothepro/doxygen-awesome-css.git
 [submodule "djinni_build"]
-	path = djinni_build
+	path = build_tools/djinni_build
 	url = git@github.com:jothepro/djinni_build.git
