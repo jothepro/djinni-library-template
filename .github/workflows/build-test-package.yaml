@@ -15,7 +15,7 @@ env:
   NUGET_USERNAME: jothepro
   NUGET_PASSWORD: ${{ secrets.NUGET_PASSWORD }}
   # Conan credentials for publishing the raw conan artifacts.
-  CONAN_REPOSITORY: https://artifactory.jothe.pro/artifactory/api/conan/conan-private
+  CONAN_REPOSITORY: https://gitlab.com/api/v4/projects/27897297/packages/conan
   CONAN_LOGIN_USERNAME: jothepro
   CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
   SWIFTPACKAGE_GITSERVER: github.com/jothepro
@@ -143,20 +143,17 @@ jobs:
           cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY
           VERSION=`git describe --tags`
           cd $SWIFTPACKAGE_REPOSITORY
-          git add .
-          git commit -m "version $VERSION"
-          git tag $VERSION
-          git push
-          git push --tags
+          git add . && git commit -m "version $VERSION" && git tag $VERSION
+          git push && git push --tags
         working-directory: build/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-ObjC
         env:
           VERSION: ${{ needs.version.outputs.version }}
-      - name: generate documentation
-        uses: mattnotmitt/doxygen-action@v1
-        with:
-          doxyfile-path: 'Doxyfile-ObjC'
+      - name: generate documenation
+        uses: |
+          brew install doxygen@1.9.1 graphviz@2.47.3
+          doxygen Doxyfile-ObjC
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -196,9 +193,10 @@ jobs:
         env:
           VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
-        uses: mattnotmitt/doxygen-action@v1
-        with:
-          doxyfile-path: 'Doxyfile-CppCli'
+        run: |
+          choco install doxygen.install --version 1.9.1
+          choco install graphviz --version 2.47.3
+          doxygen Doxyfile-CppCli
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -214,6 +212,8 @@ jobs:
       - test
       - version
     if: github.event_name == 'release'
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -228,10 +228,12 @@ jobs:
         run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --linux x86_64 --package conan --configuration release # --linux x86 x86_64 armv7 armv8 --package conan --configuration release
+      - name: publish
+        run: |
+          conan remote add conan_repository $CONAN_REPOSITORY
+          conan upload my_djinni_library/$VERSION@_/_ --all --remote=conan_repository
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Cpp
-        env:
-          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
