@@ -36,7 +36,7 @@ jobs:
         id: git_describe
         run: |
           version_tag=`git describe --tags`
-          version=${version:1}
+          version=${version_tag:1}
           echo "::set-output name=version::$version"
     outputs:
       version: ${{ steps.git_describe.outputs.version }}
