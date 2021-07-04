@@ -35,6 +35,8 @@ djinniBuild = DjinniBuild(
     android_module_name='MyDjinniLibrary',
     nupkg_dir='lib/platform/windows/package',
     nupkg_name='MyDjinniLibrary',
-    swiftpackage_dir='lib/platform/darwin/package'
+    swiftpackage_dir='lib/platform/darwin/package',
+    conan_user='jothepro',
+    conan_channel='release'
 )
 djinniBuild.main()
