@@ -200,7 +200,7 @@ jobs:
           choco install doxygen.install --version 1.9.1
           choco install graphviz --version 2.47.3
           refreshenv
-          C:\Program Files\doxygen\bin\doxygen.exe Doxyfile-CppCli
+          & "C:\Program Files\doxygen\bin\doxygen.exe" Doxyfile-CppCli
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

@@ -1,7 +1,17 @@
 from conans import ConanFile, CMake, tools
-from build_tools.get_version import get_version
 
 required_conan_version = ">=1.36"
+
+def get_version():
+    """tries to determine the library version based on the git tag, and write it to the VERSION file.
+    If no tag can be found, the version is loaded from the VERSION file."""
+    version = ""
+    try:
+        version = tools.Git().run("describe --tags")[1:]
+        tools.save("VERSION", version)
+    except:
+        version = tools.load("VERSION")
+    return version
 
 class MyLibraryConan(ConanFile):
     name = "my_djinni_library"
@@ -11,7 +21,7 @@ class MyLibraryConan(ConanFile):
     license = "AGPL-3.0-or-later"
     generators = "cmake_find_package", "cmake_paths"
     exports = "VERSION"
-    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "lib/platform/*/CMakeLists.txt", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt", "build_tools/get_version.py"
+    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "lib/platform/*/CMakeLists.txt", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
     author = "jothepro"
     options = {
         "fPIC": [True, False]
