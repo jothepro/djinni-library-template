@@ -11,7 +11,7 @@ class MyLibraryConan(ConanFile):
     license = "AGPL-3.0-or-later"
     generators = "cmake_find_package", "cmake_paths"
     exports = "VERSION"
-    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "lib/platform/*/CMakeLists.txt", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
+    exports_sources = "lib/src/*", "lib/CMakeLists.txt", "lib/*.djinni", "lib/platform/*/CMakeLists.txt", "test/*", "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt", "build_tools/get_version.py"
     author = "jothepro"
     options = {
         "fPIC": [True, False]
