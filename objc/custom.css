@@ -1,0 +1,57 @@
+:root {
+    --side-nav-fixed-width: 398px;
+}
+
+.github-corner svg {
+    fill: var(--primary-light-color);
+    color: var(--page-background-color);
+    width: 72px;
+    height: 72px;
+}
+
+@media screen and (max-width: 767px) {
+    .github-corner svg {
+        width: 55px;
+        height: 55px;
+    }
+}
+
+#projectlogo img {
+    width: 36px;
+}
+
+#languageselect {
+    text-align: right;
+}
+
+#languageselect select {
+    font-size: var(--navigation-font-size);
+    margin: var(--spacing-small) var(--spacing-medium) var(--spacing-small) var(--spacing-large);
+    background: var(--page-background-color);
+    color: var(--page-foreground-color);
+    border: 1px solid var(--separator-color);
+    height: 30px;
+    border-radius: var(--border-radius-large);
+    padding: 0 0 0 var(--spacing-small);
+}
+
+#languageselect select:focus {
+    outline: none;
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+#titlearea {
+    padding: var(--spacing-medium) 0 var(--spacing-medium) var(--spacing-medium);
+}
+
+#titlearea table {
+    width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+    #languageselect select {
+        background: var(--side-nav-background);
+        margin: var(--spacing-small) calc(var(--spacing-large) + 10px) 0 var(--spacing-small);
+    }
+}
