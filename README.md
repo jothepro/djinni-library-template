@@ -18,14 +18,69 @@ A template for a Djinni library that can be used in Java/Kotlin on Android, ObjC
 
 * Create a new repository using this template.
 * Make sure you understand how to use it in your project & how to build & run for development before you change something.
-* Search for all occurrences of "MyDjinniLibrary", "DjinniLibrary", "My" in the project to replace all ocurrences of the
-  template target and/or namespaces. You can ignore anything inside `lib/djinni-generated`, as it will be updated by Djinni automatically.
+* Search for all occurrences of "MyDjinniLibrary", "DjinniLibrary", "My" in the project to replace all occurrences of the
+  template target and/or namespaces. You can ignore anything inside `lib/djinni-generated`, as it will be updated by 
+  Djinni automatically.
 
 ## Installation
 
-- Android: [my.djinnilibrary.mydjinnilibrary (Maven)](https://github.com/jothepro/djinni-library-template/packages/881665)
-- Windows: [MyDjinniLibrary (NuGet)](https://github.com/jothepro/djinni-library-template/packages/881693)
-- Darwin: [djinni-library-template-swiftpackage (Swift Package)](https://github.com/jothepro/djinni-library-template-swiftpackage)
+This template integrates into each build system by providing a package format native to each platform.
+
+![Packages overview](docs/img/packages_overview.drawio.svg)
+
+### Android
+
+1. Add the repository to your project
+   ```groovy
+   repositories {
+       maven {
+           url "https://maven.pkg.github.com/jothepro/djinni-library-template"
+       }
+   }
+   ```
+2. Add the package dependencies to your applications build.gradle file:
+   ```groovy
+   dependencies {
+       implementation 'my.djinnilibrary:mydjinnilibrary'
+   }
+   ```
+
+### Visual Studio 2019 (Windows)
+
+*The NuGet package only works for .NET 5 (Core) Projects!*
+
+1. [Add the Package Source](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources).
+   ```
+   https://nuget.pkg.github.com/jothepro/index.json
+   ```
+2. In the NuGet Package Manager search for `MyDjinniLibrary` and install the package.
+
+
+### XCode (macOS, iOS)
+
+1. Add the repository [`jothepro/djinni-library-template-swiftpackage`](https://github.com/jothepro/djinni-library-template-swiftpackage) 
+   as Package dependency to your XCode project.
+   It contains the XCFramework with the Objective-C binaries.
+2. [Add a bridging header](https://riptutorial.com/ios/example/32537/how-to-create-a-swift-bridging-header-manually) to your project.
+3. Add this import to the bridging header:
+    ```objective-c
+    #import <MyDjinniLibrary/MyDjinniLibrary.h>
+    ```
+   
+### Linux
+
+*This template is meant to be used in a C++ project on Linux, e.g. together with `gtkmm-3.0`.
+The binary for Linux consists of just the C++ interface without any wrapper.*
+
+1. Add the conan remote.
+   ```bash
+   conan remote add djinni_library_template https://gitlab.com/api/v4/projects/27897297/packages/conan
+   ```
+2. Add the library as dependency in your conanfile.
+   ```ini
+   [requires]
+   my_djinni_library/0.0.1@jothepro/release
+   ```
 
 ## Development
 
