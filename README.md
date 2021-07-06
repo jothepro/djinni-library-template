@@ -230,7 +230,13 @@ doxygen Doxyfile-ObjC
 
 The resulting documentation can be found under `docs/generated/html`.
 
-### Project Structure
+## Project Structure
+
+### CMake Targets
+
+![CMake Target graph](docs/img/cmake_target_structure.svg)
+
+### Files
 
 ```
 .
