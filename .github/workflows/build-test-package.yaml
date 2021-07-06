@@ -72,6 +72,8 @@ jobs:
       - test
       - version
     if: github.event_name == 'release'
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -94,7 +96,7 @@ jobs:
           ndk-version: r22b
           add-to-path: false
       - name: Install Python requirements
-        run: pip install -r build_tools/djinni_build/requirements.txt
+        run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --android x86 x86_64 armv7 armv8 --configuration release --package aar
         env:
@@ -104,8 +106,6 @@ jobs:
         working-directory: lib/platform/android/package/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Java
-        env:
-          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
@@ -125,6 +125,8 @@ jobs:
       - test
       - version
     if: github.event_name == 'release'
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -136,23 +138,19 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Python requirements
-        run: pip install -r build_tools/djinni_build/requirements.txt
+        run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
       - name: publish
         run: |
           GIT_URL=https://$SWIFTPACKAGE_REPOSITORY_USERNAME:$SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/$SWIFTPACKAGE_REPOSITORY.git
           git clone --depth 1 $GIT_URL
-          cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY
-          VERSION=`git describe --tags`
-          cd $SWIFTPACKAGE_REPOSITORY
+          rm -r $SWIFTPACKAGE_REPOSITORY/bin/* && cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY && cd $SWIFTPACKAGE_REPOSITORY
           git add . && git commit -m "version $VERSION" && git tag $VERSION
           git push && git push --tags
         working-directory: build/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-ObjC
-        env:
-          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documenation
         run: |
           brew install doxygen graphviz
@@ -172,6 +170,8 @@ jobs:
       - test
       - version
     if: github.event_name == 'release'
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -183,18 +183,16 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Python requirements
-        run: pip install -r build_tools/djinni_build/requirements.txt
+        run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
       - name: publish
         run: |
           nuget sources add -Name nuget_server -Source $env:NUGET_REPOSITORY -username $env:NUGET_USERNAME -password $env:NUGET_PASSWORD
-          nuget push MyDjinniLibrary.*.nupkg -Source nuget_server -ApiKey $env:NUGET_PASSWORD
+          nuget push MyDjinniLibrary.$env:VERSION.nupkg -Source nuget_server -ApiKey $env:NUGET_PASSWORD
         working-directory: build/windows/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $env:VERSION" | Out-File -FilePath Doxyfile-CppCli -Encoding utf-8 -Append
-        env:
-          VERSION: ${{ needs.version.outputs.version }}
       - name: generate documentation
         run: |
           choco install doxygen.install --version 1.9.1
@@ -229,7 +227,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Install Python requirements
-        run: pip install -r build_tools/djinni_build/requirements.txt
+        run: pip install -r djinni_build/requirements.txt
       - name: configure, build and package
         run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration release
       - name: publish

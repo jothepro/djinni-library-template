@@ -2,7 +2,7 @@
 
 import os
 from conans import tools
-from build_tools.djinni_build.djinni_build import DjinniBuild
+from djinni_build.djinni_build import DjinniBuild
 
 
 def get_version():
