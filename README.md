@@ -1,4 +1,4 @@
-# Djinni Library
+# Djinni Library 🚀
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/jothepro/djinni-library-template)](https://github.com/jothepro/djinni-library-template/releases/latest)
 [![GitHub](https://img.shields.io/github/license/jothepro/djinni-library-template)](https://github.com/jothepro/djinni-library-template/blob/main/LICENSE)
