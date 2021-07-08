@@ -27,23 +27,31 @@ var NAVTREE =
   [ "Djinni Library", "index.html", [
     [ "Features", "index.html#autotoc_md1", null ],
     [ "How to use this template", "index.html#autotoc_md2", null ],
-    [ "Installation", "index.html#autotoc_md3", null ],
-    [ "Development", "index.html#autotoc_md4", [
-      [ "Build Requirements", "index.html#autotoc_md5", [
-        [ "Android (Java)", "index.html#autotoc_md6", null ],
-        [ "Windows (C++/CLI)", "index.html#autotoc_md7", null ]
+    [ "Installation", "index.html#autotoc_md3", [
+      [ "Android (Android Library)", "index.html#autotoc_md4", null ],
+      [ "Visual Studio 2019 (NuGet Package)", "index.html#autotoc_md5", null ],
+      [ "XCode (Swift Package)", "index.html#autotoc_md6", null ],
+      [ "Linux (Conan Recipe)", "index.html#autotoc_md7", null ]
+    ] ],
+    [ "Development", "index.html#autotoc_md8", [
+      [ "Build Requirements", "index.html#autotoc_md9", [
+        [ "Build Tools", "index.html#autotoc_md10", null ],
+        [ "Documentation Generation", "index.html#autotoc_md11", null ],
+        [ "Android (Java)", "index.html#autotoc_md12", null ],
+        [ "Windows (C++/CLI)", "index.html#autotoc_md13", null ]
       ] ],
-      [ "Build", "index.html#autotoc_md8", [
-        [ "Pure C++ build", "index.html#autotoc_md9", null ],
-        [ "Building for use in another Language", "index.html#autotoc_md10", [
-          [ "Building an Android AAR", "index.html#autotoc_md11", null ],
-          [ "Building an XCFramework for iOS/macOS", "index.html#autotoc_md12", null ],
-          [ "Building a .NET 5 NuGet package", "index.html#autotoc_md13", null ]
-        ] ]
+      [ "Pure C++ build", "index.html#autotoc_md14", null ],
+      [ "Building for use in another Language", "index.html#autotoc_md15", [
+        [ "Building an Android AAR", "index.html#autotoc_md16", null ],
+        [ "Building an XCFramework for iOS/macOS", "index.html#autotoc_md17", null ],
+        [ "Building a .NET 5 NuGet package", "index.html#autotoc_md18", null ]
       ] ],
-      [ "Test", "index.html#autotoc_md14", null ],
-      [ "Documentation", "index.html#autotoc_md15", null ],
-      [ "Project Structure", "index.html#autotoc_md16", null ]
+      [ "Test", "index.html#autotoc_md19", null ],
+      [ "Documentation", "index.html#autotoc_md20", null ]
+    ] ],
+    [ "Project Structure", "index.html#autotoc_md21", [
+      [ "CMake Targets", "index.html#autotoc_md22", null ],
+      [ "Files", "index.html#autotoc_md23", null ]
     ] ],
     [ "Interface Definition", "page1.html", null ],
     [ "Packages", "namespaces.html", [
