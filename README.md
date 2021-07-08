@@ -65,9 +65,9 @@ This template integrates into each build system by providing a package format na
    It contains the XCFramework with the Objective-C binaries.
 2. [Add a bridging header](https://riptutorial.com/ios/example/32537/how-to-create-a-swift-bridging-header-manually) to your project.
 3. Add this import to the bridging header:
-    ```objective-c
+   ```objectivec
     #import <MyDjinniLibrary/MyDjinniLibrary.h>
-    ```
+   ```
    
 ### Linux (Conan Recipe)
 

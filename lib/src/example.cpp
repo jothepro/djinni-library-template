@@ -4,7 +4,7 @@
 using namespace My::DjinniLibrary;
 
 std::string Example::hello_from_cpp() {
-    return "test";
+    return "hello from cpp";
 }
 
 std::string Example::hello_from_native(const std::shared_ptr<Native> & from) {
