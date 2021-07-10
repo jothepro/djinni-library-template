@@ -1,5 +1,6 @@
 var NAVTREEINDEX0 =
 {
+"":[6,0,0],
 "_example_8java.html":[8,0,1,0,0,0,0,0,0,0],
 "_my_djinni_library_8java.html":[8,0,1,0,0,1,0,0,0,0,0,0,0],
 "_native_8java.html":[8,0,1,0,0,0,0,0,0,1],
@@ -54,6 +55,5 @@ var NAVTREEINDEX0 =
 "namespacemy_1_1djinnilibrary.html":[6,0,0,0],
 "namespaces.html":[6,0],
 "page1.html":[5],
-"pages.html":[],
-"":[6,0,0]
+"pages.html":[]
 };
