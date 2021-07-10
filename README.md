@@ -63,10 +63,9 @@ This template integrates into each build system by providing a package format na
 1. Add the repository [`jothepro/djinni-library-template-swiftpackage`](https://github.com/jothepro/djinni-library-template-swiftpackage) 
    as Package dependency to your XCode project.
    It contains the XCFramework with the Objective-C binaries.
-2. [Add a bridging header](https://riptutorial.com/ios/example/32537/how-to-create-a-swift-bridging-header-manually) to your project.
-3. Add this import to the bridging header:
-   ```objectivec
-    #import <MyDjinniLibrary/MyDjinniLibrary.h>
+2. Add this import to the swift code:
+   ```swift
+    import MyDjinniLibrary
    ```
    
 ### Linux (Conan Recipe)

@@ -15,6 +15,4 @@ add_djinni_library(MyDjinniLibrary SHARED
         My::DjinniLibrary
 )
 
-target_compile_options(MyDjinniLibrary PRIVATE -fobjc-arc)
-
 target_link_libraries(MyDjinniLibrary PRIVATE MyDjinniLibraryCore djinni-support-lib::djinni-support-lib)
