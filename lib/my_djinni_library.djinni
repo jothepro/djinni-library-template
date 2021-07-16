@@ -6,4 +6,3 @@ example = interface +c {
     static hello_from_cpp(): string;
     static hello_from_native(from: native): string;
 }
-

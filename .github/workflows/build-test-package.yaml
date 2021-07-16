@@ -18,6 +18,7 @@ env:
   CONAN_REPOSITORY: https://gitlab.com/api/v4/projects/27897297/packages/conan
   CONAN_LOGIN_USERNAME: jothepro
   CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+  # Swiftpackage
   SWIFTPACKAGE_GITSERVER: github.com/jothepro
   SWIFTPACKAGE_REPOSITORY: djinni-library-template-swiftpackage
   SWIFTPACKAGE_REPOSITORY_USERNAME: jothepro

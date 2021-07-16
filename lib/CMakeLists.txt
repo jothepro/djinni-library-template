@@ -20,7 +20,6 @@ set_target_properties(MyDjinniLibraryCore PROPERTIES
 
 target_compile_features(MyDjinniLibraryCore PUBLIC cxx_std_17)
 
-
 FetchContent_Declare(djinni-support-lib
     GIT_REPOSITORY https://github.com/cross-language-cpp/djinni-support-lib.git
     GIT_TAG v1.0.0)

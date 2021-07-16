@@ -15,4 +15,6 @@ add_djinni_library(MyDjinniLibrary SHARED
         My::DjinniLibrary
 )
 
-target_link_libraries(MyDjinniLibrary PRIVATE MyDjinniLibraryCore djinni-support-lib::djinni-support-lib)
+target_link_libraries(MyDjinniLibrary PUBLIC
+        MyDjinniLibraryCore
+        djinni-support-lib::djinni-support-lib)

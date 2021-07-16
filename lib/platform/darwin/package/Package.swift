@@ -17,8 +17,8 @@ let package = Package(
         ],
         targets: [
             .binaryTarget(
-                    name: "MyDjinniLibraryBinaryPackage",
-                    path: "bin/MyDjinniLibrary.xcframework"
+                name: "MyDjinniLibraryBinaryPackage",
+                path: "bin/MyDjinniLibrary.xcframework"
             )
         ]
 )
