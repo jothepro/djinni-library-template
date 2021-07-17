@@ -3,6 +3,7 @@ include(default)
 compiler=gcc
 os=Linux
 compiler.libcxx=libstdc++11
+compiler.version=10
 [build_requires]
 [options]
 [env]
