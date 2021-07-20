@@ -1,5 +1,5 @@
 
-project(MyDjinniLibraryMacOS CXX OBJC OBJCXX)
+project(MyDjinniLibraryDarwin CXX OBJC OBJCXX)
 
 set(DJINNI_WITH_OBJC ON CACHE INTERNAL "")
 

@@ -27,12 +27,6 @@ class MyLibraryConan(ConanFile):
                       "lib/platform/*/CMakeLists.txt", "lib/platform/*/src/*", "lib/platform/*/include/*", "test/*", \
                       "cmake/*", "VERSION", "LICENSE", "CMakeLists.txt"
     author = "jothepro"
-    options = {
-        "fPIC": [True, False]
-    }
-    default_options = {
-        "fPIC": True
-    }
     requires = (
     )
     build_requires = (

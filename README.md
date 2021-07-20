@@ -20,7 +20,9 @@ A template for a Djinni library that can be used in Java/Kotlin on Android, ObjC
 
 ## How to use this template
 
-* Create a new repository using this template.
+* Create a new repository using this template. Check it out on your local machine.
+* Create a `VERSION` file specifying a temporary version for local development. The build process relies on the existence
+  of either a `VERSION`-file (e.g. `0.0.1`), or a Git release tag (e.g. `v0.0.1`) for determining the library version.
 * Make sure you understand how to use it in your project & how to build & run for development before you change something.
 * Search for all occurrences of "MyDjinniLibrary", "DjinniLibrary", "My" in the project to replace all occurrences of the
   template target and/or namespaces. You can ignore anything inside `lib/djinni-generated`, as it will be updated by 

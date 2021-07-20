@@ -16,6 +16,7 @@ set_target_properties(MyDjinniLibraryCore PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED true
     CXX_EXTENSIONS false
+    POSITION_INDEPENDENT_CODE TRUE
 )
 
 target_compile_features(MyDjinniLibraryCore PUBLIC cxx_std_17)
