@@ -45,7 +45,7 @@
                 <td id="projectlogo"><img alt="Logo" src="logo.svg"/></td>
                 <td id="projectalign" style="padding-left: 0.5em;">
                     <div id="projectname">Djinni Library
-                        &#160;<span id="projectnumber">0.1.2</span>
+                        &#160;<span id="projectnumber">1.0.0</span>
                     </div>
                     <div id="projectbrief">Template Utilizing CMake and Conan</div>
                 </td>
@@ -146,7 +146,8 @@ Features</h1>
 <h1><a class="anchor" id="autotoc_md2"></a>
 How to use this template</h1>
 <ul>
-<li>Create a new repository using this template.</li>
+<li>Create a new repository using this template. Check it out on your local machine.</li>
+<li>Create a <code>VERSION</code> file specifying a temporary version for local development. The build process relies on the existence of either a <code>VERSION</code>-file (e.g. <code>0.0.1</code>), or a Git release tag (e.g. <code>v0.0.1</code>) for determining the library version.</li>
 <li>Make sure you understand how to use it in your project &amp; how to build &amp; run for development before you change something.</li>
 <li>Search for all occurrences of "MyDjinniLibrary", "DjinniLibrary", "My" in the project to replace all occurrences of the template target and/or namespaces. You can ignore anything inside <code>lib/djinni-generated</code>, as it will be updated by Djinni automatically.</li>
 </ul>
@@ -189,7 +190,7 @@ Linux (Conan Recipe)</h2>
 <li>Add the conan remote. <div class="fragment"><div class="line">conan remote add djinni_library_template https://gitlab.com/api/v4/projects/27897297/packages/conan</div>
 </div><!-- fragment --></li>
 <li>Add the library as dependency in your conanfile. <div class="fragment"><div class="line">[requires]</div>
-<div class="line">my_djinni_library/0.0.1@jothepro/release</div>
+<div class="line">my_djinni_library/1.0.0@jothepro/release</div>
 </div><!-- fragment --></li>
 </ol>
 <h1><a class="anchor" id="autotoc_md8"></a>
