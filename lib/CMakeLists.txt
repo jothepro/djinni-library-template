@@ -23,7 +23,7 @@ target_compile_features(MyDjinniLibraryCore PUBLIC cxx_std_17)
 
 FetchContent_Declare(djinni-support-lib
     GIT_REPOSITORY https://github.com/cross-language-cpp/djinni-support-lib.git
-    GIT_TAG v1.0.0)
+    GIT_TAG v1.2.0)
 set(DJINNI_BUILD_TESTING OFF CACHE INTERNAL "")
 
 set(DARWIN_LIST Darwin iOS)

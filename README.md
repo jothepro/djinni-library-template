@@ -82,7 +82,7 @@ The binary for Linux consists of just the C++ interface without any wrapper.*
 2. Add the library as dependency in your conanfile.
    ```ini
    [requires]
-   my_djinni_library/0.0.1@jothepro/release
+   my_djinni_library/1.0.0@jothepro/release
    ```
 
 ## Development

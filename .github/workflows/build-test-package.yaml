@@ -190,7 +190,7 @@ jobs:
         run: echo "PROJECT_NUMBER = $env:VERSION" | Out-File -FilePath Doxyfile-CppCli -Encoding utf-8 -Append
       - name: generate documentation
         run: |
-          choco install doxygen.install --version 1.9.1
+          choco install doxygen.install --version 1.9.2
           choco install graphviz --version 2.47.3
           refreshenv
           & "C:\Program Files\doxygen\bin\doxygen.exe" Doxyfile-CppCli

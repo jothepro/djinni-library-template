@@ -31,7 +31,7 @@ class MyLibraryConan(ConanFile):
     )
     build_requires = (
         "catch2/2.13.4",
-        "djinni-generator/1.1.0"
+        "djinni-generator/1.2.0"
     )
 
     def build(self):
