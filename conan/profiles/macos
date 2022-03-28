@@ -2,3 +2,7 @@ include(default)
 [settings]
 os=Macos
 os.version=11.0
+compiler=apple-clang
+compiler.libcxx=libc++
+[env]
+CONAN_CMAKE_GENERATOR=Xcode

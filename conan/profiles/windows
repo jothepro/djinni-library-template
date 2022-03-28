@@ -1,4 +1,9 @@
 include(default)
 [settings]
 os=Windows
-compiler=Visual Studio
+compiler=msvc
+compiler.version=193
+compiler.cppstd=17
+compiler.runtime=dynamic
+[env]
+CONAN_CMAKE_GENERATOR="Visual Studio 17 2022"

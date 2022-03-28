@@ -7,11 +7,11 @@
     <owners>jothepro</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A demo that shows how to use a native djinni library from within C#</description>
-    <copyright>Copyright 2021</copyright>
+    <copyright>Copyright 2022</copyright>
     <repository type="git" url="https://github.com/jothepro/djinni-library-template.git" branch="main" commit="{version}" />
     <tags>djinni</tags>
     <dependencies>
-      <group targetFramework=".NET5.0" />
+      <group targetFramework=".NET6.0" />
     </dependencies>
   </metadata>
   <files>
