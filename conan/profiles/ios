@@ -1,4 +1,11 @@
 include(default)
 [settings]
 os=iOS
+os_build=Macos
 os.version=13.0
+compiler=apple-clang
+compiler.libcxx=libc++
+[tool_requires]
+*: ios-cmake/4.2.0
+[env]
+CONAN_CMAKE_GENERATOR=Xcode

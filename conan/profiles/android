@@ -1,10 +1,12 @@
-include(default)
 [settings]
 compiler=clang
 compiler.libcxx=libc++
 compiler.version=11
 os=Android
-os.api_level=28
-[build_requires]
+os.api_level=21
+[tool_requires]
+*: android-ndk/r22
 [options]
 [env]
+[conf]
+tools.android:ndk_path=$ANDROID_NDK_ROOT
