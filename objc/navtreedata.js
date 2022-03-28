@@ -40,19 +40,19 @@ var NAVTREE =
         [ "Android (Java)", "index.html#autotoc_md12", null ],
         [ "Windows (C++/CLI)", "index.html#autotoc_md13", null ]
       ] ],
-      [ "Pure C++ build", "index.html#autotoc_md14", null ],
-      [ "Building for use in another Language", "index.html#autotoc_md15", [
-        [ "Building an Android AAR", "index.html#autotoc_md16", null ],
-        [ "Building an XCFramework for iOS/macOS", "index.html#autotoc_md17", null ],
-        [ "Building a .NET 5 NuGet package", "index.html#autotoc_md18", null ]
+      [ "Building & Testing", "index.html#autotoc_md14", [
+        [ "With Conan", "index.html#autotoc_md15", null ],
+        [ "With CMake", "index.html#autotoc_md16", null ],
+        [ "With CLion", "index.html#autotoc_md17", null ]
       ] ],
-      [ "Test", "index.html#autotoc_md19", null ],
-      [ "Documentation", "index.html#autotoc_md20", null ]
+      [ "Packaging", "index.html#autotoc_md18", [
+        [ "Packaging an Android AAR", "index.html#autotoc_md19", null ],
+        [ "Packaging an XCFramework for iOS/macOS", "index.html#autotoc_md20", null ],
+        [ "Packaging a .NET 6 NuGet package", "index.html#autotoc_md21", null ]
+      ] ],
+      [ "Documentation", "index.html#autotoc_md22", null ]
     ] ],
-    [ "Project Structure", "index.html#autotoc_md21", [
-      [ "CMake Targets", "index.html#autotoc_md22", null ],
-      [ "Files", "index.html#autotoc_md23", null ]
-    ] ],
+    [ "Project Structure", "index.html#autotoc_md23", null ],
     [ "Interface Definition", "page1.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

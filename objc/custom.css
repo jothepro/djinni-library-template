@@ -1,5 +1,6 @@
 html {
-    --side-nav-fixed-width: 398px;
+    --side-nav-fixed-width: 340px;
+    --loading-spinner-circumference: calc(3.14 * 16px);
 }
 
 .github-corner svg {
@@ -22,17 +23,27 @@ html {
 
 #languageselect {
     text-align: right;
+    position: relative;
+    margin: 0 var(--spacing-medium) var(--spacing-small) var(--spacing-large);
 }
 
 #languageselect select {
     font-size: var(--navigation-font-size);
-    margin: var(--spacing-small) var(--spacing-medium) var(--spacing-small) var(--spacing-large);
-    background: var(--page-background-color);
+    background-color: var(--page-background-color);
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-position: right 4px center;
     color: var(--page-foreground-color);
     border: 1px solid var(--separator-color);
     height: 30px;
     border-radius: var(--border-radius-large);
-    padding: 0 0 0 var(--spacing-small);
+    padding: 0 21px 0 8px;
+    -webkit-appearance: none;
+}
+
+#languageselect.loading select {
+    background-image: none;
 }
 
 #languageselect select:focus {
@@ -50,8 +61,46 @@ html {
 }
 
 @media screen and (max-width: 767px) {
+    #languageselect {
+        margin: 0 calc(var(--spacing-large) + 12px) 0 var(--spacing-small);
+    }
     #languageselect select {
-        background: var(--side-nav-background);
-        margin: var(--spacing-small) calc(var(--spacing-large) + 10px) 0 var(--spacing-small);
+        background-color: var(--side-nav-background);
+    }
+}
+
+
+#languageselect-loadingspinner {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#languageselect.loading #languageselect-loadingspinner {
+    display: block;
+}
+
+.loading-spinner {
+    stroke: var(--page-secondary-foreground-color);
+    fill: none;
+    stroke-width: 3px;
+    stroke-dashoffset: calc(-1 * var(--loading-spinner-circumference));
+    stroke-dasharray: var(--loading-spinner-circumference);
+    animation: loading-spinner-animation 1.8s cubic-bezier(0.42, 0, 0.29, 1) infinite;
+    transform: rotate(-90deg);
+    transform-origin: 50%;
+    position: relative;
+}
+
+@keyframes loading-spinner-animation {
+    0% {
+        stroke-dashoffset: var(--loading-spinner-circumference);
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: calc(-1 * var(--loading-spinner-circumference));
     }
 }
