@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="generator" content="Doxygen 1.9.3"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- BEGIN opengraph metadata -->
     <meta property="og:title" content="Djinni Library Template" />
@@ -30,12 +30,21 @@
     <link href="doxygen.css" rel="stylesheet" type="text/css" />
     <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 <link href="custom.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+    <script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeFragmentCopyButton.init()
+        DoxygenAwesomeParagraphLink.init()
+    </script>
 </head>
 <body>
 <!-- https://tholman.com/github-corners/ -->
 <a href="https://github.com/jothepro/djinni-library-template" class="github-corner" title="View source on GitHub">
-    <svg viewBox="0 0 250 250" style="position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+    <svg viewBox="0 0 250 250" width="55" height="55" style="position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
     <div id="titlearea">
@@ -45,27 +54,50 @@
                 <td id="projectlogo"><img alt="Logo" src="logo.svg"/></td>
                 <td id="projectalign" style="padding-left: 0.5em;">
                     <div id="projectname">Djinni Library
-                        &#160;<span id="projectnumber">1.0.0</span>
+                        &#160;<span id="projectnumber">1.1.0</span>
                     </div>
-                    <div id="projectbrief">Template Utilizing CMake and Conan</div>
+                    <div id="projectbrief">Cross-Platform Library</div>
                 </td>
-                <td valign=bottom id="languageselect">
-                    <select name="Target Language" id="language_selector">
-                        <option id="option_empty" selected></option>
-                        <option  value="java" id="target_lang_java">Java</option>
-                        <option value="objc" id="target_lang_objc">ObjC</option>
-                        <option value="cppcli" id="target_lang_cppcli">C++/CLI</option>
-                        <option value="cpp" id="target_lang_cpp">C++</option>
-                    </select>
+                <td valign=bottom>
+                    <div id="languageselect">
+                        <select name="Target Language" id="language_selector">
+                            <option id="option_empty" selected></option>
+                            <option  value="java" id="target_lang_java">Java</option>
+                            <option value="objc" id="target_lang_objc">ObjC</option>
+                            <option value="cppcli" id="target_lang_cppcli">C++/CLI</option>
+                            <option value="cpp" id="target_lang_cpp">C++</option>
+                        </select>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" id="languageselect-loadingspinner">
+                            <circle cx="10px" cy="10px" r="8px" class="loading-spinner"/>
+                        </svg>
+                    </div>
                     <script>
-                        let pathElements = new URL(window.location.href).pathname.split("/")
-                        let currentLanguage = pathElements[pathElements.length - 2]
-                        var language_select = document.getElementById('language_selector')
-                        language_select.value = currentLanguage
+                        const currentURL = new URL(window.location.href)
+                        const pathElements = currentURL.pathname.substring(1).split("/")
+                        const currentLanguage = pathElements[pathElements.length - 2]
+                        const currentPage = pathElements[pathElements.length - 1]
+                        const baseUrl = [currentURL.origin].concat(pathElements.slice(0, pathElements.length - 2)).join("/")
+                        const languageSelectorDropdown = document.getElementById('language_selector')
+                        const languageSelectWrapper = document.getElementById('languageselect')
+                        languageSelectorDropdown.value = currentLanguage
                         document.getElementById('option_empty').remove()
-                        language_select.onchange = function(e) {
-                            window.location = '../' + this.value + '/annotated.html';
-                            language_select.value = currentLanguage
+                        languageSelectorDropdown.onchange = () => {
+                            languageSelectWrapper.classList.add("loading")
+                            const newUrl = `${baseUrl}/${languageSelectorDropdown.value}/${currentPage}`
+                            const fallbackUrl = `../${languageSelectorDropdown.value}/annotated.html`
+                            fetch(newUrl, {method: 'HEAD'}).then(response => {
+                                if(response.ok) {
+                                    const hash = new URL(window.location.href).hash
+                                    window.location = newUrl + hash
+                                } else {
+                                    window.location = fallbackUrl
+                                }
+                            }).catch(() => {
+                                window.location = fallbackUrl
+                            }).finally(() => {
+                                languageSelectorDropdown.value = currentLanguage
+                                languageSelectWrapper.classList.remove("loading")
+                            })
                         }
                     </script>
                 </td>
@@ -74,21 +106,22 @@
         </table>
     </div>
     <!-- end header part -->
-<!-- Generated by Doxygen 1.9.1 -->
+<!-- Generated by Doxygen 1.9.3 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'Search','.html');
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'Search','.html');
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function() {
   initMenu('',true,false,'search.php','Search');
   $(document).ready(function() { init_search(); });
 });
-/* @license-end */</script>
+/* @license-end */
+</script>
 <div id="main-nav"></div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
@@ -102,7 +135,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 /* @license-end */
 </script>
@@ -121,13 +154,12 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </iframe>
 </div>
 
-<div class="PageDoc"><div class="header">
-  <div class="headertitle">
-<div class="title">Djinni Library </div>  </div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">Djinni Library </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> <a href="https://github.com/jothepro/djinni-library-template/releases/latest"><img src="https://img.shields.io/github/v/release/jothepro/djinni-library-template" alt="GitHub release (latest by date)" class="inline"/></a> <a href="https://github.com/jothepro/djinni-library-template/blob/main/LICENSE"><img src="https://img.shields.io/github/license/jothepro/djinni-library-template" alt="GitHub" class="inline"/></a></p>
-<p>A template for a Djinni library that can be used in Java/Kotlin on Android, ObjC/Swift on iOS/macOS and C# on Windows.</p>
+<div class="textblock"><p ><a class="anchor" id="md_README"></a> <a href="https://github.com/jothepro/djinni-library-template/releases/latest"><img src="https://img.shields.io/github/v/release/jothepro/djinni-library-template" alt="GitHub release (latest by date)" class="inline"/></a> <a href="https://github.com/jothepro/djinni-library-template/blob/main/LICENSE"><img src="https://img.shields.io/github/license/jothepro/djinni-library-template" alt="GitHub" class="inline"/></a></p>
+<p >A template for a Djinni library that can be used in Java/Kotlin on Android, ObjC/Swift on iOS/macOS and C# on Windows.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Features</h1>
 <ul>
@@ -135,7 +167,7 @@ Features</h1>
 <li>👨‍👩‍👦‍👦 Can build &amp; bundle binaries for<ul>
 <li>macOS, iOS (XCFramework)</li>
 <li>Android (AAR)</li>
-<li>Windows .NET 5.0 (NuGet)</li>
+<li>Windows .NET 6.0 (NuGet)</li>
 <li>Linux</li>
 </ul>
 </li>
@@ -153,7 +185,7 @@ How to use this template</h1>
 </ul>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Installation</h1>
-<p>This template integrates into each build system by providing a package format native to each platform.</p>
+<p >This template integrates into each build system by providing a package format native to each platform.</p>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Android (Android Library)</h2>
 <ol type="1">
@@ -170,7 +202,7 @@ Android (Android Library)</h2>
 </ol>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Visual Studio 2019 (NuGet Package)</h2>
-<p><em>The NuGet package only works for .NET 5 (Core) Projects!</em></p>
+<p ><em>The NuGet package only works for .NET 6 (Core) Projects!</em></p>
 <ol type="1">
 <li><a href="https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio#package-sources">Add the Package Source</a>. <div class="fragment"><div class="line">https://nuget.pkg.github.com/jothepro/index.json</div>
 </div><!-- fragment --></li>
@@ -185,7 +217,7 @@ XCode (Swift Package)</h2>
 </ol>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Linux (Conan Recipe)</h2>
-<p><em>This template is meant to be used in a C++ project on Linux, e.g. together with <code>gtkmm-3.0</code>. The binary for Linux consists of just the C++ interface without any wrapper.</em></p>
+<p ><em>This template is meant to be used in a C++ project on Linux, e.g. together with <code>gtkmm-3.0</code>. The binary for Linux consists of just the C++ interface without any wrapper.</em></p>
 <ol type="1">
 <li>Add the conan remote. <div class="fragment"><div class="line">conan remote add djinni_library_template https://gitlab.com/api/v4/projects/27897297/packages/conan</div>
 </div><!-- fragment --></li>
@@ -200,9 +232,9 @@ Build Requirements</h2>
 <h3><a class="anchor" id="autotoc_md10"></a>
 Build Tools</h3>
 <ul>
-<li><a href="https://conan.io/">Conan</a> &gt;= 1.36</li>
+<li><a href="https://conan.io/">Conan</a> &gt;= 1.44</li>
 <li><a href="https://cmake.org/">CMake</a> &gt;= 3.15</li>
-<li><a href="https://www.python.org/">Python</a> &gt;= 3.5</li>
+<li><a href="https://www.python.org/">Python</a> &gt;= 3.10</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md11"></a>
 Documentation Generation</h3>
@@ -213,7 +245,6 @@ Documentation Generation</h3>
 <h3><a class="anchor" id="autotoc_md12"></a>
 Android (Java)</h3>
 <ul>
-<li>Android NDK</li>
 <li>Java 11</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md13"></a>
@@ -221,56 +252,73 @@ Windows (C++/CLI)</h3>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools#nugetexe-cli">Nuget CLI</a> &gt;= 5.9</li>
 <li><a href="https://docs.microsoft.com/en-us/visualstudio/windows/?view=vs-2019">Visual Studio 16 2019</a><ul>
-<li>.NET 5.0 Runtime</li>
+<li>.NET 6.0 Runtime</li>
 <li>.NET SDK</li>
 </ul>
 </li>
 </ul>
 <h2><a class="anchor" id="autotoc_md14"></a>
-Pure C++ build</h2>
-<p>During development, building the C++-Code and running tests can be done as usual in a C++ project with Conan:</p>
+Building &amp; Testing</h2>
+<p >There are multiple ways on how to build &amp; test the library during development:</p>
+<p >First, make sure to check out all submodules: <code>git submodule update --init</code>.</p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+With Conan</h3>
 <ul>
-<li><b>Commandline:</b> <div class="fragment"><div class="line"># check out all submodules</div>
-<div class="line">git submodule update --init</div>
-<div class="line"># Install Dependencies with Conan</div>
-<div class="line">conan install --install-folder=build .</div>
-<div class="line"># Configure, Build &amp; Test</div>
-<div class="line">conan build --build-folder=build .</div>
-</div><!-- fragment --></li>
-<li><b>Clion:</b> Install the <a href="https://plugins.jetbrains.com/plugin/11956-conan">Conan Plugin</a> before configuring &amp; building the project as usual.</li>
+<li>Install Dependencies with Conan: <code>conan install --profile:build=default --profile:host=debug --install-folder=build .</code></li>
+<li>Configure, Build and Test: <code>conan build --build-folder=build .</code></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md15"></a>
-Building for use in another Language</h2>
-<p>The <code>build.py</code> CLI helps you to easily build &amp; package the library for usage in another language, without having to know what is going on under the hood.</p>
-<p>For details on what the various parameters of the CLI do, please consult <code>./build.py --help</code>.</p>
-<p>All build outputs generated by <code>build.py</code> will be written to <code>./build/</code> by default. You can overwrite the build directory with the <code>--build-directory</code> parameter.</p>
-<p>Before running <code>build.py</code> for the first time, install the Python dependencies:</p>
-<div class="fragment"><div class="line">pip3 install -r djinni_build/requirements.txt</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md16"></a>
-Building an Android AAR</h3>
-<p>When building for Android, Java 11 is required. In addition to that you need to provide the NDK that you want to build with as environment variable <code>ANDROID_NDK_HOME</code>.</p>
-<div class="fragment"><div class="line">export ANDROID_NDK_HOME=/path/to/your/ndk/22.0.6917172</div>
-<div class="line">./build.py --android x86 armv8 --package aar</div>
-</div><!-- fragment --><p><b>Output:</b> <code>build/android/MyDjinniLibrary.aar</code></p>
-<p>The result is an Android Library (AAR) that contains both the Java-Gluecode required to call the native Library and the binaries for both <code>x86</code> (for the emulator) &amp; <code>arm64-v8a</code> (for the real hardware) architectures.</p>
+<h3><a class="anchor" id="autotoc_md16"></a>
+With CMake</h3>
+<ul>
+<li>Install Dependencies with Conan: <code>conan install --profile:build=default --profile:host=debug --install-folder=build .</code></li>
+<li>Provide the toolchain generated by Conan when configuring cmake: <code>cmake -B build --toolchain conan_toolchain.cmake</code></li>
+<li>Build: <code>cmake --build build</code></li>
+<li>Test: <code>ctest --test-dir build</code></li>
+</ul>
 <h3><a class="anchor" id="autotoc_md17"></a>
-Building an XCFramework for iOS/macOS</h3>
-<p>All binaries for iOS/macOS will be combined into one big XCFramework, for easy referencing in any Swift/Objective-C project. Note that for iOS two different platforms need to be targeted: The simulator and the real iPhone hardware:</p>
+With CLion</h3>
+<ul>
+<li>Install the <a href="https://plugins.jetbrains.com/plugin/11956-conan">Conan Plugin</a></li>
+<li>Configure the build &amp; host profiles:<br  />
+ <code>Preferences</code> &gt; <code>Build, Execution, Deployment</code> &gt; <code>Conan</code>:<br  />
+ Install args: <code>--build=missing --profile:build=default --profile:host=debug</code></li>
+<li>Configure the CMake toolchain:<br  />
+ <code>Preferences</code> &gt; <code>Build, Execution, Deployment</code> &gt; <code>CMake</code>:<br  />
+ CMake options: <code>--toolchain conan_toolchain.cmake</code></li>
+<li>Build &amp; Configure</li>
+<li>Test: Execute <code>MyDjinniLibraryTest</code> target.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md18"></a>
+Packaging</h2>
+<p >The <code>build.py</code> CLI helps you to easily build &amp; package the library for usage in another language, without having to know what is going on under the hood.</p>
+<p >For details on what the various parameters of the CLI do, please consult <code>./build.py --help</code>.</p>
+<p >All build outputs generated by <code>build.py</code> will be written to <code>./build/</code> by default. You can overwrite the build directory with the <code>--build-directory</code> parameter.</p>
+<p >Before running <code>build.py</code> for the first time, install the Python dependencies:</p>
+<div class="fragment"><div class="line">pip3 install -r requirements.txt</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md19"></a>
+Packaging an Android AAR</h3>
+<p >When building for Android, Java 11 is required.</p>
+<div class="fragment"><div class="line">./build.py --android x86 armv8 --package aar</div>
+</div><!-- fragment --><p ><b>Output:</b> <code>build/android/MyDjinniLibrary.aar</code></p>
+<p >The result is an Android Library (AAR) that contains both the Java-Gluecode required to call the native Library and the binaries for both <code>x86</code> (for the emulator) &amp; <code>arm64-v8a</code> (for the real hardware) architectures.</p>
+<h3><a class="anchor" id="autotoc_md20"></a>
+Packaging an XCFramework for iOS/macOS</h3>
+<p >All binaries for iOS/macOS will be combined into one big XCFramework, for easy referencing in any Swift/Objective-C project. Note that for iOS two different platforms need to be targeted: The simulator and the real iPhone hardware:</p>
 <div class="fragment"><div class="line">./build.py --iphoneos armv8 --iphonesimulator x86_64 armv8 --macos x86_64 armv8 --package xcframework</div>
-</div><!-- fragment --><p><b>Output:</b> <code>build/MyDjinniLibrary.xcframework</code></p>
-<p>The result is a XCFramework that contains binaries for</p>
+</div><!-- fragment --><p ><b>Output:</b> <code>build/MyDjinniLibrary.xcframework</code></p>
+<p >The result is a XCFramework that contains binaries for</p>
 <ul>
 <li>real iPhones (iOS)</li>
 <li>the iPhone Simulator (iOS) for both Intel &amp; Apple silicon (ARM) architectures.</li>
 <li>macOS for both Intel &amp; Apple silicon (ARM) architectures.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md18"></a>
-Building a .NET 5 NuGet package</h3>
+<h3><a class="anchor" id="autotoc_md21"></a>
+Packaging a .NET 6 NuGet package</h3>
 <div class="fragment"><div class="line">./build.py --windows x86_64 x86 armv8 --package nuget</div>
-</div><!-- fragment --><p><b>Output:</b> <code>build/windows/MyDjinniLibrary.&lt;version&gt;.nupkg</code></p>
-<p>The result is a NuGet package that contains binaries for 3 different architectures (<code>x86_64</code>, <code>x86</code> and <code>arm64</code>). The NuGet package makes it easy for you to include the library in a .NET 5 project without having to worry about what <code>dll</code> to include for which architecture in the build process.</p>
-<p><b>Attention</b>: If you encounter the following error message when building a project that references the NuGet package, don't panic! </p><blockquote class="doxtable">
-<p>Error MSB3270 There was a mismatch between the processor architecture of the project being built "x86" and the processor architecture of the reference "MyDjinniLibrary", "AMD64". This mismatch may cause runtime failures. Please consider changing the targeted processor architecture of your project through the Configuration Manager so as to align the processor architectures between your project and references, or take a dependency on references with a processor architecture that matches the targeted processor architecture of your project. </p>
+</div><!-- fragment --><p ><b>Output:</b> <code>build/windows/MyDjinniLibrary.&lt;version&gt;.nupkg</code></p>
+<p >The result is a NuGet package that contains binaries for 3 different architectures (<code>x86_64</code>, <code>x86</code> and <code>arm64</code>). The NuGet package makes it easy for you to include the library in a .NET 5 project without having to worry about what <code>dll</code> to include for which architecture in the build process.</p>
+<p ><b>Attention</b>: If you encounter the following error message when building a project that references the NuGet package, don't panic! </p><blockquote class="doxtable">
+<p >&zwj;Error MSB3270 There was a mismatch between the processor architecture of the project being built "x86" and the processor architecture of the reference "MyDjinniLibrary", "AMD64". This mismatch may cause runtime failures. Please consider changing the targeted processor architecture of your project through the Configuration Manager so as to align the processor architectures between your project and references, or take a dependency on references with a processor architecture that matches the targeted processor architecture of your project. </p>
 </blockquote>
 <p>You can just ignore it, it's a false positive! The NuGet package comes with logic that will indeed package the right <code>dll</code> during build time. Disable the warning in the projects <code>.csproj</code> file by adding: </p><div class="fragment"><div class="line">&lt;<span class="keywordtype">Project</span> <span class="keyword">Sdk</span>=<span class="stringliteral">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</div>
 <div class="line">  &lt;<span class="keywordtype">PropertyGroup</span>&gt;</div>
@@ -279,34 +327,22 @@ Building a .NET 5 NuGet package</h3>
 <div class="line">    &lt;/<span class="keywordtype">ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch</span>&gt;</div>
 <div class="line">  &lt;/<span class="keywordtype">PropertyGroup</span>&gt;</div>
 <div class="line">&lt;/<span class="keywordtype">Project</span>&gt;</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
-Test</h2>
-<p>The library comes preconfigured for Unit-Testing with Catch2:</p>
-<ul>
-<li><b>Commandline:</b> To run just the unit-tests, you can run <code>conan build --build-folder=build --test .</code>.</li>
-<li><b>CLion:</b> Execute the <code>MyDjinniLibraryTest</code> target.</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
 Documentation</h2>
-<p>The repository comes with 4 different Doxygen configurations, each is for a different target language:</p><ul>
+<p >The repository comes with 4 different Doxygen configurations, each is for a different target language:</p><ul>
 <li><code>Doxyfile-Cpp</code>: Documents the C++ interfaces that will be exposed for all the languages. They can also be used directly in a C++ project, e.g. for targeting Linux with <code>gtkmm</code>.</li>
 <li><code>Doxyfile-CppCli</code>: Documents the C++/CLI gluecode for targeting Windows .NET 5</li>
 <li><code>Doxyfile-Java</code>: Documents the Java gluecode for targeting Android</li>
 <li><code>Doxyfile-ObjC</code>: Documents the Objective-C gluecode for targeting iOS/macOS</li>
 </ul>
-<p>All Doxyfiles depend on code generated by Djinni. Make sure that the required files are present, before running Doxygen:</p>
+<p >All Doxyfiles depend on code generated by Djinni. Make sure that the library was built at least once before running Doxygen.</p>
 <div class="fragment"><div class="line">doxygen Doxyfile-Cpp</div>
 <div class="line">doxygen Doxyfile-CppCli</div>
 <div class="line">doxygen Doxyfile-Java</div>
 <div class="line">doxygen Doxyfile-ObjC</div>
-</div><!-- fragment --><p>The resulting documentation can be found under <code>docs/generated/html</code>.</p>
-<h1><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><p >The resulting documentation can be found under <code>docs/generated/html</code>.</p>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Project Structure</h1>
-<h2><a class="anchor" id="autotoc_md22"></a>
-CMake Targets</h2>
-<p><img src="cmake_target_structure.svg" alt="" style="pointer-events: none;" class="inline" title="CMake Target graph"/></p>
-<h2><a class="anchor" id="autotoc_md23"></a>
-Files</h2>
 <div class="fragment"><div class="line">.</div>
 <div class="line">├── CMakeLists.txt               : Root `CMakeLists.txt`. Includes Library sources and unit tests.</div>
 <div class="line">├── Doxyfile-Cpp                 : Doxyfile for the C++ interface that is generated with Djinni from `my_djinni_library.djinni`.</div>
@@ -326,10 +362,6 @@ Files</h2>
 <div class="line">│   └── profiles                 : Folder containing Conan profiles for all supported target platforms (`android`, `ios`, `macos`, `windows`).</div>
 <div class="line">│       └── ...                    These profiles are used by `build.py` () to configure the CMake targets accordingly.</div>
 <div class="line">├── conanfile.py                 : Conanfile for installing dependencies &amp; defining the library itself as Conan package.</div>
-<div class="line">├── djinni_build                 : Submodule that contains the logic used in `build.py` for building packages for different platforms</div>
-<div class="line">│   ├── djinni_build.py          : Python script that is included in `build.py` </div>
-<div class="line">│   ├── requirements.txt         : Requirements of `djinni_build.py`. Need to be installed before running `build.py`</div>
-<div class="line">│   └── ...</div>
 <div class="line">├── docs</div>
 <div class="line">│   ├── doxygen-awesome-css      : Submodule of the `doxygen-awesome-css` doxygen theme.</div>
 <div class="line">│   │   └── ...</div>
@@ -360,7 +392,7 @@ Files</h2>
 <div class="line">│   │   │           └── ...        be copied to the `build` folder.</div>
 <div class="line">│   │   ├── linux</div>
 <div class="line">│   │   │   └── CMakeLists.txt</div>
-<div class="line">│   │   └── windows              : NuGet package structure that is used by `build.py` to package the .NET 5 NuGet package.</div>
+<div class="line">│   │   └── windows              : NuGet package structure that is used by `build.py` to package the .NET 6 NuGet package.</div>
 <div class="line">│   │       ├── CMakeLists.txt</div>
 <div class="line">│   │       └── package          : Nupkg template including nuspec that is populated with the project version from the `VERSION` file by `build.py`.</div>
 <div class="line">│   │           ├── MyDjinniLibrary.nuspec.template</div>
@@ -368,6 +400,7 @@ Files</h2>
 <div class="line">│   │                              and will then run `nupkg pack`. The resulting nupkg will be copied to `build/windows`.</div>
 <div class="line">│   └── src                      : Finally! The source files of the library.</div>
 <div class="line">│       └── ...</div>
+<div class="line">├── requirements.txt             : Python dependencies required to run build.py</div>
 <div class="line">└── test                         : Folder containing the library unit tests.</div>
 <div class="line">    ├── CMakeLists.txt           : `CMakeLists.txt` that configures the Unit tests with Catch2.</div>
 <div class="line">    └── ...</div>
@@ -377,7 +410,7 @@ Files</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3 </li>
   </ul>
 </div>
 </body>
