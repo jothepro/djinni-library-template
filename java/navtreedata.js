@@ -29,7 +29,7 @@ var NAVTREE =
     [ "How to use this template", "index.html#autotoc_md2", null ],
     [ "Installation", "index.html#autotoc_md3", [
       [ "Android (Android Library)", "index.html#autotoc_md4", null ],
-      [ "Visual Studio 2019 (NuGet Package)", "index.html#autotoc_md5", null ],
+      [ "Visual Studio 17 2022 (NuGet Package)", "index.html#autotoc_md5", null ],
       [ "XCode (Swift Package)", "index.html#autotoc_md6", null ],
       [ "Linux (Conan Recipe)", "index.html#autotoc_md7", null ]
     ] ],
