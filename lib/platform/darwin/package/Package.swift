@@ -10,14 +10,14 @@ let package = Package(
             // Products define the executables and libraries a package produces, and make them visible to other packages.
             .library(
                     name: "MyDjinniLibrary",
-                    targets: ["MyDjinniLibraryBinaryPackage"])
+                    targets: ["MyDjinniLibrary"])
         ],
         dependencies: [
             // Dependencies declare other packages that this package depends on.
         ],
         targets: [
             .binaryTarget(
-                name: "MyDjinniLibraryBinaryPackage",
+                name: "MyDjinniLibrary",
                 path: "bin/MyDjinniLibrary.xcframework"
             )
         ]

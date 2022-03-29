@@ -1,7 +1,6 @@
 include(default)
 [settings]
 os=iOS
-os_build=Macos
 os.version=13.0
 compiler=apple-clang
 compiler.libcxx=libc++
