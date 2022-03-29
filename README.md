@@ -8,7 +8,7 @@ A template for a Djinni library that can be used in Java/Kotlin on Android, ObjC
 
 ## Features
 
-* 🧞‍♂️ Develop your library once in C++, use it in Code written in Java, C++/CLI (.NET 5) or Swift thanks to [Djinni](https://djinni.xlcpp.dev/).
+* 🧞‍♂️ Develop your library once in C++, use it in Code written in Java, C++/CLI (.NET 6) or Swift thanks to [Djinni](https://djinni.xlcpp.dev/).
 * 👨‍👩‍👦‍👦 Can build & bundle binaries for 
   - macOS, iOS (XCFramework)
   - Android (AAR)
@@ -49,7 +49,7 @@ This template integrates into each build system by providing a package format na
    }
    ```
 
-### Visual Studio 2019 (NuGet Package)
+### Visual Studio 17 2022 (NuGet Package)
 
 *The NuGet package only works for .NET 6 (Core) Projects!*
 
@@ -107,7 +107,7 @@ The binary for Linux consists of just the C++ interface without any wrapper.*
 #### Windows (C++/CLI)
 
 - [Nuget CLI](https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools#nugetexe-cli) >= 5.9
-- [Visual Studio 16 2019](https://docs.microsoft.com/en-us/visualstudio/windows/?view=vs-2019)
+- [Visual Studio 17 2022](https://visualstudio.microsoft.com/de/downloads/)
   * .NET 6.0 Runtime
   * .NET SDK
     
