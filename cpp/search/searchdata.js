@@ -3,7 +3,7 @@ var indexSectionsWithContent =
   0: "dehimnr~",
   1: "en",
   2: "m",
-  3: "einr",
+  3: "deinr",
   4: "h~",
   5: "di"
 };
