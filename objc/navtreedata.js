@@ -33,27 +33,33 @@ var NAVTREE =
       [ "XCode (Swift Package)", "index.html#autotoc_md6", null ],
       [ "Linux (Conan Recipe)", "index.html#autotoc_md7", null ]
     ] ],
-    [ "Development", "index.html#autotoc_md8", [
-      [ "Build Requirements", "index.html#autotoc_md9", [
-        [ "Build Tools", "index.html#autotoc_md10", null ],
-        [ "Documentation Generation", "index.html#autotoc_md11", null ],
-        [ "Android (Java)", "index.html#autotoc_md12", null ],
-        [ "Windows (C++/CLI)", "index.html#autotoc_md13", null ]
+    [ "Development", "md_docs_development.html", [
+      [ "Build Requirements", "md_docs_development.html#autotoc_md9", [
+        [ "Build Tools", "md_docs_development.html#autotoc_md10", null ],
+        [ "Documentation Generation", "md_docs_development.html#autotoc_md11", null ],
+        [ "Android (Java)", "md_docs_development.html#autotoc_md12", null ],
+        [ "Windows (C++/CLI)", "md_docs_development.html#autotoc_md13", null ]
       ] ],
-      [ "Building & Testing", "index.html#autotoc_md14", [
-        [ "With Conan", "index.html#autotoc_md15", null ],
-        [ "With CMake", "index.html#autotoc_md16", null ],
-        [ "With CLion", "index.html#autotoc_md17", null ]
+      [ "Building & Testing", "md_docs_development.html#autotoc_md14", [
+        [ "With Conan", "md_docs_development.html#autotoc_md15", null ],
+        [ "With CMake", "md_docs_development.html#autotoc_md16", null ],
+        [ "With CLion", "md_docs_development.html#autotoc_md17", null ]
       ] ],
-      [ "Packaging", "index.html#autotoc_md18", [
-        [ "Packaging an Android AAR", "index.html#autotoc_md19", null ],
-        [ "Packaging an XCFramework for iOS/macOS", "index.html#autotoc_md20", null ],
-        [ "Packaging a .NET 6 NuGet package", "index.html#autotoc_md21", null ]
+      [ "Packaging", "md_docs_development.html#autotoc_md18", [
+        [ "Android AAR", "md_docs_development.html#autotoc_md19", null ],
+        [ "XCFramework for iOS/macOS", "md_docs_development.html#autotoc_md20", null ],
+        [ ".NET 6 NuGet package", "md_docs_development.html#autotoc_md21", null ]
       ] ],
-      [ "Documentation", "index.html#autotoc_md22", null ]
+      [ "Test", "md_docs_development.html#autotoc_md22", null ],
+      [ "Debugging", "md_docs_development.html#autotoc_md23", [
+        [ "Android (AAR)", "md_docs_development.html#autotoc_md24", null ],
+        [ "iOS/macOS", "md_docs_development.html#autotoc_md25", null ],
+        [ "Windows (NuGet)", "md_docs_development.html#autotoc_md26", null ]
+      ] ],
+      [ "Documentation", "md_docs_development.html#autotoc_md27", null ],
+      [ "Project Structure", "md_docs_development.html#autotoc_md28", null ]
     ] ],
-    [ "Project Structure", "index.html#autotoc_md23", null ],
-    [ "Interface Definition", "page1.html", null ],
+    [ "Interface Definition", "idl.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
