@@ -5,8 +5,6 @@ plugins {
 }
 
 
-version = new File('../../../../VERSION').text
-
 android {
     compileSdk 30
     buildToolsVersion "30.0.3"
@@ -29,10 +27,7 @@ android {
     }
 
     packagingOptions{
-        doNotStrip "*/armeabi-v7a/*.so"
-        doNotStrip "*/arm64-v8a/*.so"
-        doNotStrip "*/x86/*.so"
-        doNotStrip "*/x86_64/*.so"
+        doNotStrip "*/jniLibs/*/*.so"
     }
 }
 
@@ -43,12 +38,18 @@ dependencies {
 
 publishing {
     publications {
-        myPublication(MavenPublication) {
+        release(MavenPublication) {
             groupId 'my.djinnilibrary'
             version version
             artifactId 'mydjinnilibrary'
             artifact("$buildDir/outputs/aar/MyDjinniLibrary-release.aar")
         }
+        debug(MavenPublication) {
+                    groupId 'my.djinnilibrary'
+                    version version
+                    artifactId 'mydjinnilibrary'
+                    artifact("$buildDir/outputs/aar/MyDjinniLibrary-debug.aar")
+                }
     }
     repositories {
         maven {

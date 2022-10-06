@@ -1,1 +1,2 @@
-djinni_build==1.0.0
+djinni_build==2.0.0
+conan==1.52

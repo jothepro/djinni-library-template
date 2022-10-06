@@ -2,6 +2,7 @@ include(default)
 [settings]
 os=Macos
 os.version=11.0
+compiler.version=13
 compiler=apple-clang
 compiler.libcxx=libc++
 [env]

@@ -5,6 +5,8 @@ os.version=13.0
 compiler=apple-clang
 compiler.libcxx=libc++
 [tool_requires]
-*: ios-cmake/4.2.0
+ios-cmake/4.2.0
+[options]
+ios-cmake:enable_bitcode=False
 [env]
 CONAN_CMAKE_GENERATOR=Xcode

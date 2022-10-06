@@ -5,8 +5,4 @@ compiler.version=11
 os=Android
 os.api_level=28
 [tool_requires]
-*: android-ndk/r22
-[options]
-[env]
-[conf]
-tools.android:ndk_path=$ANDROID_NDK_ROOT
+android-ndk/r22

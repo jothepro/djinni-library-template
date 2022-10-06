@@ -28,12 +28,15 @@ env:
   SWIFTPACKAGE_REPOSITORY: djinni-library-template-swiftpackage
   SWIFTPACKAGE_REPOSITORY_USERNAME: jothepro
   SWIFTPACKAGE_REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+  # Compile time environment settings
+  XCODE_VERSION: 13.4.1
+  GCC_VERSION: 11
+  PYTHON_VERSION: '3.10'
 
 jobs:
   version:
     name: get version
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -51,7 +54,7 @@ jobs:
     name: Build & test
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-11, windows-2022]
+        os: [ubuntu-20.04, macos-12, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -59,23 +62,27 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-      - name: Set up Python 3.10
+      - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'
-      - name: Install Conan
-        uses: turtlebrowser/get-conan@main
-      - name: Set up GCC 11
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Python requirements
+        run: pip install -r requirements.txt
+      - name: Select wanted Xcode Version
+        if: runner.os == 'macOS'
+        run: sudo xcode-select --switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+      - name: Set up GCC
         if: runner.os == 'Linux'
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: ${{ env.GCC_VERSION }}
+      - name: Detect Conan profile
+        run: conan profile new default --detect
       - name: Configure Conan profile
         if: runner.os == 'Linux'
         run: |
-          conan profile new default --detect
           conan profile update settings.compiler.libcxx=libstdc++11 default
-          conan profile update settings.compiler.version=11 default
+          conan profile update settings.compiler.version=${{ env.GCC_VERSION }} default
       - name: Conan install
         run: conan install --build=missing -if build .
       - name: Conan build & test
@@ -87,7 +94,6 @@ jobs:
     needs:
       - test
       - version
-    if: github.event_name == 'release'
     env:
       VERSION: ${{ needs.version.outputs.version }}
     steps:
@@ -95,10 +101,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set up Python 3.10
+          fetch-depth: 0
+      - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Java 11
         uses: actions/setup-java@v3.0.0
         with:
@@ -107,17 +114,19 @@ jobs:
       - name: Install Python requirements
         run: pip install -r requirements.txt
       - name: configure, build and package
-        run: ./build.py --android x86 x86_64 armv7 armv8 --configuration release --package aar
+        run: ./build.py --android x86 x86_64 armv7 armv8 --configuration debug --package aar
       - name: publish
-        run: ./gradlew publish
-        working-directory: lib/platform/android/package/
+        if: github.event_name == 'release'
+        run: ./gradlew publishDebugPublicationToMavenRepository -Pversion=$VERSION
+        working-directory: build/android/package/
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Java
       - name: generate documentation
-        uses: mattnotmitt/doxygen-action@v1.9.3
+        uses: mattnotmitt/doxygen-action@v1.9.4
         with:
           doxyfile-path: 'Doxyfile-Java'
       - name: Publish generated docs to GitHub Pages
+        if: github.event_name == 'release'
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: docs/generated/html/java
@@ -127,11 +136,10 @@ jobs:
 
   build_darwin:
     name: Package for Darwin (swiftpackage)
-    runs-on: macos-11
+    runs-on: macos-12
     needs:
       - test
       - version
-    if: github.event_name == 'release'
     env:
       VERSION: ${{ needs.version.outputs.version }}
     steps:
@@ -139,19 +147,23 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set up Python 3.10
+          fetch-depth: 0
+      - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Python requirements
         run: pip install -r requirements.txt
+      - name: Select wanted Xcode Version
+        run: sudo xcode-select --switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
       - name: configure, build and package
-        run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration release
+        run: ./build.py --macos x86_64 armv8 --iphonesimulator x86_64 armv8 --iphoneos armv8 --package xcframework swiftpackage --configuration debug
       - name: publish
+        if: github.event_name == 'release'
         run: |
           GIT_URL=https://$SWIFTPACKAGE_REPOSITORY_USERNAME:$SWIFTPACKAGE_REPOSITORY_PASSWORD@$SWIFTPACKAGE_GITSERVER/$SWIFTPACKAGE_REPOSITORY.git
           git clone --depth 1 $GIT_URL
-          rm -r $SWIFTPACKAGE_REPOSITORY/bin/* && cp -r swiftpackage/* $SWIFTPACKAGE_REPOSITORY && cd $SWIFTPACKAGE_REPOSITORY
+          rm -r $SWIFTPACKAGE_REPOSITORY/bin/* && cp -r darwin/swiftpackage/* $SWIFTPACKAGE_REPOSITORY && cd $SWIFTPACKAGE_REPOSITORY
           git add . && git commit -m "version $VERSION" && git tag $VERSION
           git push && git push --tags
         working-directory: build/
@@ -159,9 +171,11 @@ jobs:
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-ObjC
       - name: generate documenation
         run: |
-          brew install doxygen graphviz
+          wget https://raw.githubusercontent.com/Homebrew/homebrew-core/41828ee36b96e35b63b2a4c8cfc2df2c3728944a/Formula/doxygen.rb # v1.9.4
+          brew install graphviz doxygen.rb
           doxygen Doxyfile-ObjC
       - name: Publish generated docs to GitHub Pages
+        if: github.event_name == 'release'
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: docs/generated/html/objc
@@ -175,7 +189,6 @@ jobs:
     needs:
       - test
       - version
-    if: github.event_name == 'release'
     env:
       VERSION: ${{ needs.version.outputs.version }}
     steps:
@@ -183,28 +196,31 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set up Python 3.10
+          fetch-depth: 0
+      - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Python requirements
         run: pip install -r requirements.txt
       - name: configure, build and package
-        run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration release
+        run: python3 ./build.py --windows x86 x86_64 armv7 armv8 --package nuget --configuration debug
       - name: publish
+        if: github.event_name == 'release'
         run: |
           nuget sources add -Name nuget_server -Source $env:NUGET_REPOSITORY -username $env:NUGET_USERNAME -password $env:NUGET_PASSWORD
-          nuget push MyDjinniLibrary.$env:VERSION.nupkg -Source nuget_server -ApiKey $env:NUGET_PASSWORD
-        working-directory: build/windows/
+          nuget push MyDjinniLibrary.$env:VERSION.symbols.nupkg -Source nuget_server -ApiKey $env:NUGET_PASSWORD
+        working-directory: build/windows/package
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $env:VERSION" | Out-File -FilePath Doxyfile-CppCli -Encoding utf-8 -Append
       - name: generate documentation
         run: |
-          choco install doxygen.install --version 1.9.3.20220106
-          choco install graphviz --version 2.49.3
+          choco install doxygen.install --version 1.9.4
+          choco install graphviz --version 3.0.0
           refreshenv
           & "C:\Program Files\doxygen\bin\doxygen.exe" Doxyfile-CppCli
       - name: Publish generated docs to GitHub Pages
+        if: github.event_name == 'release'
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: docs/generated/html/cppcli
@@ -218,7 +234,6 @@ jobs:
     needs:
       - test
       - version
-    if: github.event_name == 'release'
     env:
       VERSION: ${{ needs.version.outputs.version }}
     steps:
@@ -226,29 +241,32 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Set up Python 3.10
+          fetch-depth: 0
+      - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Install Python requirements
         run: pip install -r requirements.txt
-      - name: Set up GCC 11
+      - name: Set up GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: ${{ env.GCC_VERSION }}
       - name: configure, build and package
-        run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration release
+        run: ./build.py --linux x86 x86_64 armv7 armv8 --package conan --configuration debug
       - name: publish
+        if: github.event_name == 'release'
         run: |
           conan remote add conan_repository $CONAN_REPOSITORY
           conan upload my_djinni_library/$VERSION@jothepro/release --all --remote=conan_repository
       - name: set version to Doxyfile
         run: echo "PROJECT_NUMBER = $VERSION" >> Doxyfile-Cpp
       - name: generate documentation
-        uses: mattnotmitt/doxygen-action@v1.9.3
+        uses: mattnotmitt/doxygen-action@v1.9.4
         with:
           doxyfile-path: 'Doxyfile-Cpp'
       - name: Publish generated docs to GitHub Pages
+        if: github.event_name == 'release'
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: docs/generated/html/cpp
