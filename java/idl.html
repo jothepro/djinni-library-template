@@ -15,7 +15,7 @@
     <meta name="twitter:title" content="Djinni Library Template" />
     <meta name="twitter:description" content="A basic Djinni library project template utilizing CMake and Conan." />
     <!-- END twitter metadata -->
-    <title>Djinni Library: Class Members</title>
+    <title>Djinni Library: Interface Definition</title>
     <link href="tabs.css" rel="stylesheet" type="text/css"/>
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     <script type="text/javascript" src="jquery.js"></script>
@@ -138,7 +138,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('functions.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('idl.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -156,12 +156,21 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 </iframe>
 </div>
 
+<div><div class="header">
+  <div class="headertitle"><div class="title">Interface Definition </div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all class members with links to the classes they belong to:</div><ul>
-<li>helloFromCpp()&#160;:&#160;<a class="el" href="classmy_1_1djinnilibrary_1_1_example.html#a2561fcd61fed80d6a1fb9a3eb94e49f1">my.djinnilibrary.Example</a></li>
-<li>helloFromNative()&#160;:&#160;<a class="el" href="classmy_1_1djinnilibrary_1_1_example.html#ae6d2b7eef9a57f5c8ec54b31933b4e08">my.djinnilibrary.Example</a>, <a class="el" href="classmy_1_1djinnilibrary_1_1_native.html#a98b8f136ef1b15f6f6d310eae3fa675e">my.djinnilibrary.Native</a></li>
-</ul>
-</div><!-- contents -->
+<div class="textblock"><p >Djinni IDL file:</p>
+<div class="fragment"><div class="line">native = interface +j +o +s {</div>
+<div class="line">    hello_from_native(): string;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line">example = interface +c {</div>
+<div class="line">    static hello_from_cpp(): string;</div>
+<div class="line">    static hello_from_native(from: native): string;</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
